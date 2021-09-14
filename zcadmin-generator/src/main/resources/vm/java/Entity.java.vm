@@ -1,0 +1,66 @@
+package ${package}.entity;
+
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.zc.entity.BaseEntity;
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiModel;
+import lombok.*;
+#if($logicDelete)
+import com.baomidou.mybatisplus.annotation.TableLogic;
+#end
+#foreach ($column in $columns)
+#if($column.columnJavaType == 'Date')
+import java.util.Date;
+import org.springframework.format.annotation.DateTimeFormat;
+import com.fasterxml.jackson.annotation.JsonFormat;
+#break
+#end
+#end
+#foreach ($column in $columns)
+    #if($column.columnJavaType == 'BigDecimal')
+    import java.math.BigDecimal;
+        #break
+    #end
+#end
+/**
+ * ${tableComment}表 ${tableName}
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+@EqualsAndHashCode(callSuper = true)
+@Data
+@ApiModel(description="${tableComment}",parent=BaseEntity.class)
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class ${className} extends BaseEntity{
+
+    private static final long serialVersionUID=1L;
+#foreach ($column in $columns)
+    #if( $column.attrNameFirstToLow == "searchValue" ||  $column.attrNameFirstToLow == "createBy" || $column.attrNameFirstToLow == "createTime" ||
+        $column.attrNameFirstToLow == "updateBy" || $column.attrNameFirstToLow == "updateTime" || $column.attrNameFirstToLow == "remark")
+    #elseif($column.columnJavaType=="Date")
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @ApiModelProperty(value="$column.remark",name="$column.attrNameFirstToLow")
+    private $column.columnJavaType $column.attrNameFirstToLow;
+    #elseif($column.attrNameFirstToLow==$primaryKey.attrNameFirstToLow)
+
+    @TableId(value = "$primaryKey.columnName",type = IdType.AUTO)
+    @ApiModelProperty(value="$column.remark",name="$column.attrNameFirstToLow")
+    private $column.columnJavaType $column.attrNameFirstToLow;
+    #elseif($logicDelete &&$logicField == $column.columnName)
+    @TableLogic
+    @ApiModelProperty(value="$column.remark",name="$column.attrNameFirstToLow")
+    private $column.columnJavaType $column.attrNameFirstToLow;
+    #else
+
+    @ApiModelProperty(value="$column.remark",name="$column.attrNameFirstToLow")
+    private $column.columnJavaType $column.attrNameFirstToLow;
+    #end
+#end
+
+}
