@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zc.modules.project.mapper.TTextContentMapper">
+    <resultMap type="TTextContent" id="BaseResultMap">
+            <result property="id" jdbcType="INTEGER" column="id"/>
+            <result property="content" jdbcType="VARCHAR" column="content"/>
+            <result property="createTime" jdbcType="TIMESTAMP" column="create_time"/>
+    </resultMap>
+            <sql id="Base_Column_List">
+id,content,create_time
+    </sql>
+        <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_text_content
+        where id = #{id,jdbcType=INTEGER}
+</select>
+
+    <select id="selectListBySelective" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_text_content
+        where 1=1
+        <if test="id != null ">
+            and id = #{id,jdbcType=INTEGER}
+        </if>
+        <if test="content != null  and content != '' ">
+            and content = #{content,jdbcType=VARCHAR}
+        </if>
+        <if test="createTime != null ">
+            and create_time = #{createTime,jdbcType=TIMESTAMP}
+        </if>
+    </select>
+
+    <select id="selectOneBySelective" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_text_content
+        where 1=1
+                <if test="id != null ">
+                    and id = #{id,jdbcType=INTEGER}
+                </if>
+                <if test="content != null  and content != '' ">
+                    and content = #{content,jdbcType=VARCHAR}
+                </if>
+                <if test="createTime != null ">
+                    and create_time = #{createTime,jdbcType=TIMESTAMP}
+                </if>
+        limit 1
+    </select>
+
+
+    <select id="selectPageBySelective" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_text_content
+        where 1=1
+                <if test="record.id != null ">
+                    and id = #{record.id,jdbcType=INTEGER}
+                </if>
+                <if test="record.content != null  and record.content != '' ">
+                    and content = #{record.content,jdbcType=VARCHAR}
+                </if>
+                <if test="record.createTime != null ">
+                    and create_time = #{record.createTime,jdbcType=TIMESTAMP}
+                </if>
+    </select>
+
+    <select id="selectByPrimaryKeys" parameterType="java.util.List"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_text_content
+        where id in
+        <foreach collection="list" item="ids" index="index" open="(" close=")" separator=",">
+            #{ids}
+        </foreach>
+    </select>
+
+    <select id="selectCountBySelective" resultType="java.lang.Integer">
+        select
+        count(1)
+        from t_text_content
+        where 1=1
+                <if test="id != null ">
+                    and id = #{id,jdbcType=INTEGER}
+                </if>
+                <if test="content != null  and content != '' ">
+                    and content = #{content,jdbcType=VARCHAR}
+                </if>
+                <if test="createTime != null ">
+                    and create_time = #{createTime,jdbcType=TIMESTAMP}
+                </if>
+    </select>
+
+    <insert id="insert" parameterType="TTextContent"             useGeneratedKeys="true" keyProperty="id">
+        insert into t_text_content
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+ id, content, create_time,</trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+         #{id,jdbcType=INTEGER},         #{content,jdbcType=VARCHAR},         #{createTime,jdbcType=TIMESTAMP},        </trim>
+    </insert>
+
+    <insert id="insertSelective" parameterType="TTextContent"            useGeneratedKeys="true" keyProperty="id">
+        insert into t_text_content
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                    <if test="content != null  and content != ''  ">content,</if>
+                    <if test="createTime != null  ">create_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                    <if test="content != null  and content != ''  ">#{content,jdbcType=VARCHAR},</if>
+                    <if test="createTime != null  ">#{createTime,jdbcType=TIMESTAMP},</if>
+        </trim>
+    </insert>
+
+
+    <insert id="insertBatch" parameterType="java.util.List"             useGeneratedKeys="true" keyProperty="id">
+        insert into  t_text_content
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+id,content,create_time,        </trim>
+        values
+        <foreach collection="recordList" item="record" index="index" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                #{record.id,jdbcType=INTEGER},                #{record.content,jdbcType=VARCHAR},                #{record.createTime,jdbcType=TIMESTAMP},            </trim>>
+        </foreach>
+    </insert>
+
+    <update id="update" parameterType="TTextContent">
+        update t_text_content
+        <trim prefix="SET" suffixOverrides=",">
+ id =#{id,jdbcType=INTEGER}, content =#{content,jdbcType=VARCHAR}, create_time =#{createTime,jdbcType=TIMESTAMP},        </trim>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateSelective" parameterType="TTextContent">
+        update t_text_content
+        <trim prefix="SET" suffixOverrides=",">
+                    <if test="content != null  and content != ''  ">content = #{content,jdbcType=VARCHAR},</if>
+                    <if test="createTime != null  ">create_time = #{createTime,jdbcType=TIMESTAMP},</if>
+        </trim>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateParamsBySelective" parameterType="TTextContent">
+        update t_text_content
+        <trim prefix="SET" suffixOverrides=",">
+                    <if test="params.content != null  and params.content != ''  ">content = #{params.content,jdbcType=VARCHAR},</if>
+                    <if test="params.createTime != null  ">create_time = #{params.createTime,jdbcType=TIMESTAMP},</if>
+        </trim>
+        where 1=1
+                <if test="record.id != null ">
+                    and id = #{record.id,jdbcType=INTEGER}
+                </if>
+                <if test="record.content != null  and record.content != '' ">
+                    and content = #{record.content,jdbcType=VARCHAR}
+                </if>
+                <if test="record.createTime != null ">
+                    and create_time = #{record.createTime,jdbcType=TIMESTAMP}
+                </if>
+
+
+    </update>
+
+
+    <update id="updateBatch" parameterType="java.util.List">
+        update t_text_content
+        <trim prefix="SET" suffixOverrides=",">
+                    <trim prefix="content = case" suffix="end,">
+                        <foreach collection="list" index="index" item="records">
+                            when id = #{records.id,jdbcType=INTEGER} then #{records.content,jdbcType=VARCHAR}
+                        </foreach>
+                    </trim>
+                    <trim prefix="create_time = case" suffix="end,">
+                        <foreach collection="list" index="index" item="records">
+                            when id = #{records.id,jdbcType=INTEGER} then #{records.createTime,jdbcType=TIMESTAMP}
+                        </foreach>
+                    </trim>
+        </trim>
+        where id in
+        <foreach collection="list" item="records" open="(" close=")" separator=", ">
+            #{records.id}
+        </foreach>
+    </update>
+
+    <update id="updateBatchSelective" parameterType="java.util.List">
+        update t_text_content
+        <trim prefix="SET" suffixOverrides=",">
+                    <trim prefix="content = case" suffix="end,">
+                        <foreach collection="list" index="index" item="records">
+                            <if test="records.content != null  and records.content != ''  " >
+                            when id = #{records.id,jdbcType=INTEGER} then #{records.content,jdbcType=VARCHAR}
+                            </if>
+                        </foreach>
+                    </trim>
+                    <trim prefix="create_time = case" suffix="end,">
+                        <foreach collection="list" index="index" item="records">
+                            <if test="records.createTime != null  " >
+                            when id = #{records.id,jdbcType=INTEGER} then #{records.createTime,jdbcType=TIMESTAMP}
+                            </if>
+                        </foreach>
+                    </trim>
+        </trim>
+        where id in
+        <foreach collection="list" item="records" open="(" close=")" separator=", ">
+            #{records.id}
+        </foreach>
+    </update>
+    <delete id="deleteBySelective" parameterType="java.lang.Integer">
+        delete
+        from t_text_content where 1=1
+                <if test="id != null ">
+                    and id = #{id,jdbcType=INTEGER}
+                </if>
+                <if test="content != null  and content != '' ">
+                    and content = #{content,jdbcType=VARCHAR}
+                </if>
+                <if test="createTime != null ">
+                    and create_time = #{createTime,jdbcType=TIMESTAMP}
+                </if>
+    </delete>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from t_text_content where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <delete id="deleteByPrimaryKeys" parameterType="java.util.List">
+        delete from t_text_content where id in
+        <foreach collection="list" item="ids" index="index" open="(" close=")" separator=",">
+            #{ids}
+        </foreach>
+    </delete>
+
+
+</mapper>

@@ -1,0 +1,592 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zc.modules.project.mapper.TQuestionMapper">
+    <resultMap type="TQuestion" id="BaseResultMap">
+        <result property="id" jdbcType="INTEGER" column="id"/>
+        <result property="questionType" jdbcType="INTEGER" column="question_type"/>
+        <result property="subjectId" jdbcType="INTEGER" column="subject_id"/>
+        <result property="score" jdbcType="INTEGER" column="score"/>
+        <result property="gradeLevel" jdbcType="INTEGER" column="grade_level"/>
+        <result property="difficult" jdbcType="INTEGER" column="difficult"/>
+        <result property="correct" jdbcType="VARCHAR" column="correct"/>
+        <result property="infoTextContentId" jdbcType="INTEGER" column="info_text_content_id"/>
+        <result property="createUser" jdbcType="INTEGER" column="create_user"/>
+        <result property="status" jdbcType="INTEGER" column="status"/>
+        <result property="createTime" jdbcType="TIMESTAMP" column="create_time"/>
+        <result property="isDelete" jdbcType="BIT" column="is_delete"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id,question_type,subject_id,score,grade_level,difficult,correct,info_text_content_id,create_user,status,create_time,is_delete
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_question
+        where id = #{id,jdbcType=INTEGER}
+        and is_delete =0
+    </select>
+
+    <select id="selectListBySelective" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_question
+        where 1=1
+        and is_delete =0
+        <if test="id != null ">
+            and id = #{id,jdbcType=INTEGER}
+        </if>
+        <if test="questionType != null ">
+            and question_type = #{questionType,jdbcType=INTEGER}
+        </if>
+        <if test="subjectId != null ">
+            and subject_id = #{subjectId,jdbcType=INTEGER}
+        </if>
+        <if test="score != null ">
+            and score = #{score,jdbcType=INTEGER}
+        </if>
+        <if test="gradeLevel != null ">
+            and grade_level = #{gradeLevel,jdbcType=INTEGER}
+        </if>
+        <if test="difficult != null ">
+            and difficult = #{difficult,jdbcType=INTEGER}
+        </if>
+        <if test="correct != null  and correct != '' ">
+            and correct = #{correct,jdbcType=VARCHAR}
+        </if>
+        <if test="infoTextContentId != null ">
+            and info_text_content_id = #{infoTextContentId,jdbcType=INTEGER}
+        </if>
+        <if test="createUser != null ">
+            and create_user = #{createUser,jdbcType=INTEGER}
+        </if>
+        <if test="status != null ">
+            and status = #{status,jdbcType=INTEGER}
+        </if>
+        <if test="createTime != null ">
+            and create_time = #{createTime,jdbcType=TIMESTAMP}
+        </if>
+    </select>
+
+    <select id="selectOneBySelective" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_question
+        where 1=1
+        and is_delete =0
+        <if test="id != null ">
+            and id = #{id,jdbcType=INTEGER}
+        </if>
+        <if test="questionType != null ">
+            and question_type = #{questionType,jdbcType=INTEGER}
+        </if>
+        <if test="subjectId != null ">
+            and subject_id = #{subjectId,jdbcType=INTEGER}
+        </if>
+        <if test="score != null ">
+            and score = #{score,jdbcType=INTEGER}
+        </if>
+        <if test="gradeLevel != null ">
+            and grade_level = #{gradeLevel,jdbcType=INTEGER}
+        </if>
+        <if test="difficult != null ">
+            and difficult = #{difficult,jdbcType=INTEGER}
+        </if>
+        <if test="correct != null  and correct != '' ">
+            and correct = #{correct,jdbcType=VARCHAR}
+        </if>
+        <if test="infoTextContentId != null ">
+            and info_text_content_id = #{infoTextContentId,jdbcType=INTEGER}
+        </if>
+        <if test="createUser != null ">
+            and create_user = #{createUser,jdbcType=INTEGER}
+        </if>
+        <if test="status != null ">
+            and status = #{status,jdbcType=INTEGER}
+        </if>
+        <if test="createTime != null ">
+            and create_time = #{createTime,jdbcType=TIMESTAMP}
+        </if>
+        limit 1
+    </select>
+
+
+    <select id="selectPageBySelective" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_question
+        where 1=1
+        and is_delete =0
+        <if test="record.id != null ">
+            and id = #{record.id,jdbcType=INTEGER}
+        </if>
+        <if test="record.questionType != null ">
+            and question_type = #{record.questionType,jdbcType=INTEGER}
+        </if>
+        <if test="record.subjectId != null ">
+            and subject_id = #{record.subjectId,jdbcType=INTEGER}
+        </if>
+        <if test="record.score != null ">
+            and score = #{record.score,jdbcType=INTEGER}
+        </if>
+        <if test="record.gradeLevel != null ">
+            and grade_level = #{record.gradeLevel,jdbcType=INTEGER}
+        </if>
+        <if test="record.difficult != null ">
+            and difficult = #{record.difficult,jdbcType=INTEGER}
+        </if>
+        <if test="record.correct != null  and record.correct != '' ">
+            and correct = #{record.correct,jdbcType=VARCHAR}
+        </if>
+        <if test="record.infoTextContentId != null ">
+            and info_text_content_id = #{record.infoTextContentId,jdbcType=INTEGER}
+        </if>
+        <if test="record.createUser != null ">
+            and create_user = #{record.createUser,jdbcType=INTEGER}
+        </if>
+        <if test="record.status != null ">
+            and status = #{record.status,jdbcType=INTEGER}
+        </if>
+        <if test="record.createTime != null ">
+            and create_time = #{record.createTime,jdbcType=TIMESTAMP}
+        </if>
+    </select>
+
+    <select id="selectContentPageBySelective" resultType="com.zc.modules.project.dto.QuestionDTO">
+        SELECT
+        tq.*,tc.content
+        FROM
+        t_question AS tq
+        LEFT JOIN t_text_content AS tc ON tc.id = tq.info_text_content_id
+        where 1=1
+        and tq.is_delete =0
+        <if test="record.id != null ">
+            and tq.id = #{record.id,jdbcType=INTEGER}
+        </if>
+        <if test="record.questionType != null ">
+            and tq.question_type = #{record.questionType,jdbcType=INTEGER}
+        </if>
+        <if test="record.subjectId != null ">
+            and tq.subject_id = #{record.subjectId,jdbcType=INTEGER}
+        </if>
+        <if test="record.score != null ">
+            and tq.score = #{record.score,jdbcType=INTEGER}
+        </if>
+        <if test="record.gradeLevel != null ">
+            and tq.grade_level = #{record.gradeLevel,jdbcType=INTEGER}
+        </if>
+        <if test="record.difficult != null ">
+            and tq.difficult = #{record.difficult,jdbcType=INTEGER}
+        </if>
+        <if test="record.correct != null  and record.correct != '' ">
+            and tq.correct = #{record.correct,jdbcType=VARCHAR}
+        </if>
+        <if test="record.infoTextContentId != null ">
+            and tq.info_text_content_id = #{record.infoTextContentId,jdbcType=INTEGER}
+        </if>
+        <if test="record.createUser != null ">
+            and tq.create_user = #{record.createUser,jdbcType=INTEGER}
+        </if>
+        <if test="record.status != null ">
+            and tq.status = #{record.status,jdbcType=INTEGER}
+        </if>
+        <if test="record.createTime != null ">
+            and tq.create_time = #{record.createTime,jdbcType=TIMESTAMP}
+        </if>
+
+    </select>
+
+    <select id="selectByPrimaryKeys" parameterType="java.util.List"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_question
+        where id in
+        <foreach collection="list" item="ids" index="index" open="(" close=")" separator=",">
+            #{ids}
+        </foreach>
+        and is_delete =0
+    </select>
+
+    <select id="selectCountBySelective" resultType="java.lang.Integer">
+        select
+        count(1)
+        from t_question
+        where 1=1
+        and is_delete =0
+        <if test="id != null ">
+            and id = #{id,jdbcType=INTEGER}
+        </if>
+        <if test="questionType != null ">
+            and question_type = #{questionType,jdbcType=INTEGER}
+        </if>
+        <if test="subjectId != null ">
+            and subject_id = #{subjectId,jdbcType=INTEGER}
+        </if>
+        <if test="score != null ">
+            and score = #{score,jdbcType=INTEGER}
+        </if>
+        <if test="gradeLevel != null ">
+            and grade_level = #{gradeLevel,jdbcType=INTEGER}
+        </if>
+        <if test="difficult != null ">
+            and difficult = #{difficult,jdbcType=INTEGER}
+        </if>
+        <if test="correct != null  and correct != '' ">
+            and correct = #{correct,jdbcType=VARCHAR}
+        </if>
+        <if test="infoTextContentId != null ">
+            and info_text_content_id = #{infoTextContentId,jdbcType=INTEGER}
+        </if>
+        <if test="createUser != null ">
+            and create_user = #{createUser,jdbcType=INTEGER}
+        </if>
+        <if test="status != null ">
+            and status = #{status,jdbcType=INTEGER}
+        </if>
+        <if test="createTime != null ">
+            and create_time = #{createTime,jdbcType=TIMESTAMP}
+        </if>
+    </select>
+
+    <insert id="insert" parameterType="TQuestion" useGeneratedKeys="true" keyProperty="id">
+        insert into t_question
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            id, question_type, subject_id, score, grade_level, difficult, correct, info_text_content_id, create_user,
+            status, create_time,
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            #{id,jdbcType=INTEGER}, #{questionType,jdbcType=INTEGER}, #{subjectId,jdbcType=INTEGER},
+            #{score,jdbcType=INTEGER}, #{gradeLevel,jdbcType=INTEGER}, #{difficult,jdbcType=INTEGER},
+            #{correct,jdbcType=VARCHAR}, #{infoTextContentId,jdbcType=INTEGER}, #{createUser,jdbcType=INTEGER},
+            #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP},
+        </trim>
+    </insert>
+
+    <insert id="insertSelective" parameterType="TQuestion" useGeneratedKeys="true" keyProperty="id">
+        insert into t_question
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="questionType != null  ">question_type,</if>
+            <if test="subjectId != null  ">subject_id,</if>
+            <if test="score != null  ">score,</if>
+            <if test="gradeLevel != null  ">grade_level,</if>
+            <if test="difficult != null  ">difficult,</if>
+            <if test="correct != null  and correct != ''  ">correct,</if>
+            <if test="infoTextContentId != null  ">info_text_content_id,</if>
+            <if test="createUser != null  ">create_user,</if>
+            <if test="status != null  ">status,</if>
+            <if test="createTime != null  ">create_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="questionType != null  ">#{questionType,jdbcType=INTEGER},</if>
+            <if test="subjectId != null  ">#{subjectId,jdbcType=INTEGER},</if>
+            <if test="score != null  ">#{score,jdbcType=INTEGER},</if>
+            <if test="gradeLevel != null  ">#{gradeLevel,jdbcType=INTEGER},</if>
+            <if test="difficult != null  ">#{difficult,jdbcType=INTEGER},</if>
+            <if test="correct != null  and correct != ''  ">#{correct,jdbcType=VARCHAR},</if>
+            <if test="infoTextContentId != null  ">#{infoTextContentId,jdbcType=INTEGER},</if>
+            <if test="createUser != null  ">#{createUser,jdbcType=INTEGER},</if>
+            <if test="status != null  ">#{status,jdbcType=INTEGER},</if>
+            <if test="createTime != null  ">#{createTime,jdbcType=TIMESTAMP},</if>
+        </trim>
+    </insert>
+
+
+    <insert id="insertBatch" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        insert into t_question
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            id,question_type,subject_id,score,grade_level,difficult,correct,info_text_content_id,create_user,status,create_time,
+        </trim>
+        values
+        <foreach collection="recordList" item="record" index="index" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                #{record.id,jdbcType=INTEGER}, #{record.questionType,jdbcType=INTEGER},
+                #{record.subjectId,jdbcType=INTEGER}, #{record.score,jdbcType=INTEGER},
+                #{record.gradeLevel,jdbcType=INTEGER}, #{record.difficult,jdbcType=INTEGER},
+                #{record.correct,jdbcType=VARCHAR}, #{record.infoTextContentId,jdbcType=INTEGER},
+                #{record.createUser,jdbcType=INTEGER}, #{record.status,jdbcType=INTEGER},
+                #{record.createTime,jdbcType=TIMESTAMP},</trim>>
+        </foreach>
+    </insert>
+
+    <update id="update" parameterType="TQuestion">
+        update t_question
+        <trim prefix="SET" suffixOverrides=",">
+            id =#{id,jdbcType=INTEGER}, question_type =#{questionType,jdbcType=INTEGER}, subject_id
+            =#{subjectId,jdbcType=INTEGER}, score =#{score,jdbcType=INTEGER}, grade_level
+            =#{gradeLevel,jdbcType=INTEGER}, difficult =#{difficult,jdbcType=INTEGER}, correct
+            =#{correct,jdbcType=VARCHAR}, info_text_content_id =#{infoTextContentId,jdbcType=INTEGER}, create_user
+            =#{createUser,jdbcType=INTEGER}, status =#{status,jdbcType=INTEGER}, create_time
+            =#{createTime,jdbcType=TIMESTAMP},
+        </trim>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateSelective" parameterType="TQuestion">
+        update t_question
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="questionType != null  ">question_type = #{questionType,jdbcType=INTEGER},</if>
+            <if test="subjectId != null  ">subject_id = #{subjectId,jdbcType=INTEGER},</if>
+            <if test="score != null  ">score = #{score,jdbcType=INTEGER},</if>
+            <if test="gradeLevel != null  ">grade_level = #{gradeLevel,jdbcType=INTEGER},</if>
+            <if test="difficult != null  ">difficult = #{difficult,jdbcType=INTEGER},</if>
+            <if test="correct != null  and correct != ''  ">correct = #{correct,jdbcType=VARCHAR},</if>
+            <if test="infoTextContentId != null  ">info_text_content_id = #{infoTextContentId,jdbcType=INTEGER},</if>
+            <if test="createUser != null  ">create_user = #{createUser,jdbcType=INTEGER},</if>
+            <if test="status != null  ">status = #{status,jdbcType=INTEGER},</if>
+            <if test="createTime != null  ">create_time = #{createTime,jdbcType=TIMESTAMP},</if>
+        </trim>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateParamsBySelective" parameterType="TQuestion">
+        update t_question
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="params.questionType != null  ">question_type = #{params.questionType,jdbcType=INTEGER},</if>
+            <if test="params.subjectId != null  ">subject_id = #{params.subjectId,jdbcType=INTEGER},</if>
+            <if test="params.score != null  ">score = #{params.score,jdbcType=INTEGER},</if>
+            <if test="params.gradeLevel != null  ">grade_level = #{params.gradeLevel,jdbcType=INTEGER},</if>
+            <if test="params.difficult != null  ">difficult = #{params.difficult,jdbcType=INTEGER},</if>
+            <if test="params.correct != null  and params.correct != ''  ">correct =
+                #{params.correct,jdbcType=VARCHAR},
+            </if>
+            <if test="params.infoTextContentId != null  ">info_text_content_id =
+                #{params.infoTextContentId,jdbcType=INTEGER},
+            </if>
+            <if test="params.createUser != null  ">create_user = #{params.createUser,jdbcType=INTEGER},</if>
+            <if test="params.status != null  ">status = #{params.status,jdbcType=INTEGER},</if>
+            <if test="params.createTime != null  ">create_time = #{params.createTime,jdbcType=TIMESTAMP},</if>
+        </trim>
+        where 1=1
+        <if test="record.id != null ">
+            and id = #{record.id,jdbcType=INTEGER}
+        </if>
+        <if test="record.questionType != null ">
+            and question_type = #{record.questionType,jdbcType=INTEGER}
+        </if>
+        <if test="record.subjectId != null ">
+            and subject_id = #{record.subjectId,jdbcType=INTEGER}
+        </if>
+        <if test="record.score != null ">
+            and score = #{record.score,jdbcType=INTEGER}
+        </if>
+        <if test="record.gradeLevel != null ">
+            and grade_level = #{record.gradeLevel,jdbcType=INTEGER}
+        </if>
+        <if test="record.difficult != null ">
+            and difficult = #{record.difficult,jdbcType=INTEGER}
+        </if>
+        <if test="record.correct != null  and record.correct != '' ">
+            and correct = #{record.correct,jdbcType=VARCHAR}
+        </if>
+        <if test="record.infoTextContentId != null ">
+            and info_text_content_id = #{record.infoTextContentId,jdbcType=INTEGER}
+        </if>
+        <if test="record.createUser != null ">
+            and create_user = #{record.createUser,jdbcType=INTEGER}
+        </if>
+        <if test="record.status != null ">
+            and status = #{record.status,jdbcType=INTEGER}
+        </if>
+        <if test="record.createTime != null ">
+            and create_time = #{record.createTime,jdbcType=TIMESTAMP}
+        </if>
+
+
+    </update>
+
+
+    <update id="updateBatch" parameterType="java.util.List">
+        update t_question
+        <trim prefix="SET" suffixOverrides=",">
+            <trim prefix="question_type = case" suffix="end,">
+                <foreach collection="list" index="index" item="records">
+                    when id = #{records.id,jdbcType=INTEGER} then #{records.questionType,jdbcType=INTEGER}
+                </foreach>
+            </trim>
+            <trim prefix="subject_id = case" suffix="end,">
+                <foreach collection="list" index="index" item="records">
+                    when id = #{records.id,jdbcType=INTEGER} then #{records.subjectId,jdbcType=INTEGER}
+                </foreach>
+            </trim>
+            <trim prefix="score = case" suffix="end,">
+                <foreach collection="list" index="index" item="records">
+                    when id = #{records.id,jdbcType=INTEGER} then #{records.score,jdbcType=INTEGER}
+                </foreach>
+            </trim>
+            <trim prefix="grade_level = case" suffix="end,">
+                <foreach collection="list" index="index" item="records">
+                    when id = #{records.id,jdbcType=INTEGER} then #{records.gradeLevel,jdbcType=INTEGER}
+                </foreach>
+            </trim>
+            <trim prefix="difficult = case" suffix="end,">
+                <foreach collection="list" index="index" item="records">
+                    when id = #{records.id,jdbcType=INTEGER} then #{records.difficult,jdbcType=INTEGER}
+                </foreach>
+            </trim>
+            <trim prefix="correct = case" suffix="end,">
+                <foreach collection="list" index="index" item="records">
+                    when id = #{records.id,jdbcType=INTEGER} then #{records.correct,jdbcType=VARCHAR}
+                </foreach>
+            </trim>
+            <trim prefix="info_text_content_id = case" suffix="end,">
+                <foreach collection="list" index="index" item="records">
+                    when id = #{records.id,jdbcType=INTEGER} then #{records.infoTextContentId,jdbcType=INTEGER}
+                </foreach>
+            </trim>
+            <trim prefix="create_user = case" suffix="end,">
+                <foreach collection="list" index="index" item="records">
+                    when id = #{records.id,jdbcType=INTEGER} then #{records.createUser,jdbcType=INTEGER}
+                </foreach>
+            </trim>
+            <trim prefix="status = case" suffix="end,">
+                <foreach collection="list" index="index" item="records">
+                    when id = #{records.id,jdbcType=INTEGER} then #{records.status,jdbcType=INTEGER}
+                </foreach>
+            </trim>
+            <trim prefix="create_time = case" suffix="end,">
+                <foreach collection="list" index="index" item="records">
+                    when id = #{records.id,jdbcType=INTEGER} then #{records.createTime,jdbcType=TIMESTAMP}
+                </foreach>
+            </trim>
+        </trim>
+        where id in
+        <foreach collection="list" item="records" open="(" close=")" separator=", ">
+            #{records.id}
+        </foreach>
+    </update>
+
+    <update id="updateBatchSelective" parameterType="java.util.List">
+        update t_question
+        <trim prefix="SET" suffixOverrides=",">
+            <trim prefix="question_type = case" suffix="end,">
+                <foreach collection="list" index="index" item="records">
+                    <if test="records.questionType != null  ">
+                        when id = #{records.id,jdbcType=INTEGER} then #{records.questionType,jdbcType=INTEGER}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="subject_id = case" suffix="end,">
+                <foreach collection="list" index="index" item="records">
+                    <if test="records.subjectId != null  ">
+                        when id = #{records.id,jdbcType=INTEGER} then #{records.subjectId,jdbcType=INTEGER}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="score = case" suffix="end,">
+                <foreach collection="list" index="index" item="records">
+                    <if test="records.score != null  ">
+                        when id = #{records.id,jdbcType=INTEGER} then #{records.score,jdbcType=INTEGER}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="grade_level = case" suffix="end,">
+                <foreach collection="list" index="index" item="records">
+                    <if test="records.gradeLevel != null  ">
+                        when id = #{records.id,jdbcType=INTEGER} then #{records.gradeLevel,jdbcType=INTEGER}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="difficult = case" suffix="end,">
+                <foreach collection="list" index="index" item="records">
+                    <if test="records.difficult != null  ">
+                        when id = #{records.id,jdbcType=INTEGER} then #{records.difficult,jdbcType=INTEGER}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="correct = case" suffix="end,">
+                <foreach collection="list" index="index" item="records">
+                    <if test="records.correct != null  and records.correct != ''  ">
+                        when id = #{records.id,jdbcType=INTEGER} then #{records.correct,jdbcType=VARCHAR}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="info_text_content_id = case" suffix="end,">
+                <foreach collection="list" index="index" item="records">
+                    <if test="records.infoTextContentId != null  ">
+                        when id = #{records.id,jdbcType=INTEGER} then #{records.infoTextContentId,jdbcType=INTEGER}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="create_user = case" suffix="end,">
+                <foreach collection="list" index="index" item="records">
+                    <if test="records.createUser != null  ">
+                        when id = #{records.id,jdbcType=INTEGER} then #{records.createUser,jdbcType=INTEGER}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="status = case" suffix="end,">
+                <foreach collection="list" index="index" item="records">
+                    <if test="records.status != null  ">
+                        when id = #{records.id,jdbcType=INTEGER} then #{records.status,jdbcType=INTEGER}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="create_time = case" suffix="end,">
+                <foreach collection="list" index="index" item="records">
+                    <if test="records.createTime != null  ">
+                        when id = #{records.id,jdbcType=INTEGER} then #{records.createTime,jdbcType=TIMESTAMP}
+                    </if>
+                </foreach>
+            </trim>
+        </trim>
+        where id in
+        <foreach collection="list" item="records" open="(" close=")" separator=", ">
+            #{records.id}
+        </foreach>
+    </update>
+    <update id="deleteBySelective" parameterType="java.lang.Integer">
+        update t_question
+        set is_delete = 1
+        where 1=1
+        <if test="id != null ">
+            and id = #{id,jdbcType=INTEGER}
+        </if>
+        <if test="questionType != null ">
+            and question_type = #{questionType,jdbcType=INTEGER}
+        </if>
+        <if test="subjectId != null ">
+            and subject_id = #{subjectId,jdbcType=INTEGER}
+        </if>
+        <if test="score != null ">
+            and score = #{score,jdbcType=INTEGER}
+        </if>
+        <if test="gradeLevel != null ">
+            and grade_level = #{gradeLevel,jdbcType=INTEGER}
+        </if>
+        <if test="difficult != null ">
+            and difficult = #{difficult,jdbcType=INTEGER}
+        </if>
+        <if test="correct != null  and correct != '' ">
+            and correct = #{correct,jdbcType=VARCHAR}
+        </if>
+        <if test="infoTextContentId != null ">
+            and info_text_content_id = #{infoTextContentId,jdbcType=INTEGER}
+        </if>
+        <if test="createUser != null ">
+            and create_user = #{createUser,jdbcType=INTEGER}
+        </if>
+        <if test="status != null ">
+            and status = #{status,jdbcType=INTEGER}
+        </if>
+        <if test="createTime != null ">
+            and create_time = #{createTime,jdbcType=TIMESTAMP}
+        </if>
+    </update>
+    <update id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        update t_question
+        set is_delete = 1
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="deleteByPrimaryKeys" parameterType="java.util.List">
+        update t_question set is_delete = 1
+        where id in
+        <foreach collection="list" item="ids" index="index" open="(" close=")" separator=",">
+            #{ids}
+        </foreach>
+    </update>
+
+
+</mapper>

@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zc.modules.project.mapper.TSubjectMapper">
+    <resultMap type="TSubject" id="BaseResultMap">
+            <result property="id" jdbcType="INTEGER" column="id"/>
+            <result property="name" jdbcType="VARCHAR" column="name"/>
+            <result property="level" jdbcType="INTEGER" column="level"/>
+            <result property="levelName" jdbcType="VARCHAR" column="level_name"/>
+            <result property="itemOrder" jdbcType="INTEGER" column="item_order"/>
+            <result property="isDelete" jdbcType="BIT" column="is_delete"/>
+    </resultMap>
+            <sql id="Base_Column_List">
+id,name,level,level_name,item_order,is_delete
+    </sql>
+        <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_subject
+        where id = #{id,jdbcType=INTEGER}
+        and is_delete =0
+</select>
+
+    <select id="selectListBySelective" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_subject
+        where 1=1
+        and is_delete =0
+        <if test="id != null ">
+            and id = #{id,jdbcType=INTEGER}
+        </if>
+        <if test="name != null  and name != '' ">
+            and name = #{name,jdbcType=VARCHAR}
+        </if>
+        <if test="level != null ">
+            and level = #{level,jdbcType=INTEGER}
+        </if>
+        <if test="levelName != null  and levelName != '' ">
+            and level_name = #{levelName,jdbcType=VARCHAR}
+        </if>
+        <if test="itemOrder != null ">
+            and item_order = #{itemOrder,jdbcType=INTEGER}
+        </if>
+    </select>
+
+    <select id="selectOneBySelective" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_subject
+        where 1=1
+        and is_delete =0
+                <if test="id != null ">
+                    and id = #{id,jdbcType=INTEGER}
+                </if>
+                <if test="name != null  and name != '' ">
+                    and name = #{name,jdbcType=VARCHAR}
+                </if>
+                <if test="level != null ">
+                    and level = #{level,jdbcType=INTEGER}
+                </if>
+                <if test="levelName != null  and levelName != '' ">
+                    and level_name = #{levelName,jdbcType=VARCHAR}
+                </if>
+                <if test="itemOrder != null ">
+                    and item_order = #{itemOrder,jdbcType=INTEGER}
+                </if>
+        limit 1
+    </select>
+
+
+    <select id="selectPageBySelective" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_subject
+        where 1=1
+        and is_delete =0
+                <if test="record.id != null ">
+                    and id = #{record.id,jdbcType=INTEGER}
+                </if>
+                <if test="record.name != null  and record.name != '' ">
+                    and name = #{record.name,jdbcType=VARCHAR}
+                </if>
+                <if test="record.level != null ">
+                    and level = #{record.level,jdbcType=INTEGER}
+                </if>
+                <if test="record.levelName != null  and record.levelName != '' ">
+                    and level_name = #{record.levelName,jdbcType=VARCHAR}
+                </if>
+                <if test="record.itemOrder != null ">
+                    and item_order = #{record.itemOrder,jdbcType=INTEGER}
+                </if>
+    </select>
+
+    <select id="selectByPrimaryKeys" parameterType="java.util.List"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_subject
+        where id in
+        <foreach collection="list" item="ids" index="index" open="(" close=")" separator=",">
+            #{ids}
+        </foreach>
+        and is_delete =0
+    </select>
+
+    <select id="selectCountBySelective" resultType="java.lang.Integer">
+        select
+        count(1)
+        from t_subject
+        where 1=1
+        and is_delete =0
+                <if test="id != null ">
+                    and id = #{id,jdbcType=INTEGER}
+                </if>
+                <if test="name != null  and name != '' ">
+                    and name = #{name,jdbcType=VARCHAR}
+                </if>
+                <if test="level != null ">
+                    and level = #{level,jdbcType=INTEGER}
+                </if>
+                <if test="levelName != null  and levelName != '' ">
+                    and level_name = #{levelName,jdbcType=VARCHAR}
+                </if>
+                <if test="itemOrder != null ">
+                    and item_order = #{itemOrder,jdbcType=INTEGER}
+                </if>
+    </select>
+
+    <insert id="insert" parameterType="TSubject"             useGeneratedKeys="true" keyProperty="id">
+        insert into t_subject
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+ id, name, level, level_name, item_order,</trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+         #{id,jdbcType=INTEGER},         #{name,jdbcType=VARCHAR},         #{level,jdbcType=INTEGER},         #{levelName,jdbcType=VARCHAR},         #{itemOrder,jdbcType=INTEGER},        </trim>
+    </insert>
+
+    <insert id="insertSelective" parameterType="TSubject"            useGeneratedKeys="true" keyProperty="id">
+        insert into t_subject
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                    <if test="name != null  and name != ''  ">name,</if>
+                    <if test="level != null  ">level,</if>
+                    <if test="levelName != null  and levelName != ''  ">level_name,</if>
+                    <if test="itemOrder != null  ">item_order,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                    <if test="name != null  and name != ''  ">#{name,jdbcType=VARCHAR},</if>
+                    <if test="level != null  ">#{level,jdbcType=INTEGER},</if>
+                    <if test="levelName != null  and levelName != ''  ">#{levelName,jdbcType=VARCHAR},</if>
+                    <if test="itemOrder != null  ">#{itemOrder,jdbcType=INTEGER},</if>
+        </trim>
+    </insert>
+
+
+    <insert id="insertBatch" parameterType="java.util.List"             useGeneratedKeys="true" keyProperty="id">
+        insert into  t_subject
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+id,name,level,level_name,item_order,        </trim>
+        values
+        <foreach collection="recordList" item="record" index="index" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                #{record.id,jdbcType=INTEGER},                #{record.name,jdbcType=VARCHAR},                #{record.level,jdbcType=INTEGER},                #{record.levelName,jdbcType=VARCHAR},                #{record.itemOrder,jdbcType=INTEGER},            </trim>>
+        </foreach>
+    </insert>
+
+    <update id="update" parameterType="TSubject">
+        update t_subject
+        <trim prefix="SET" suffixOverrides=",">
+ id =#{id,jdbcType=INTEGER}, name =#{name,jdbcType=VARCHAR}, level =#{level,jdbcType=INTEGER}, level_name =#{levelName,jdbcType=VARCHAR}, item_order =#{itemOrder,jdbcType=INTEGER},        </trim>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateSelective" parameterType="TSubject">
+        update t_subject
+        <trim prefix="SET" suffixOverrides=",">
+                    <if test="name != null  and name != ''  ">name = #{name,jdbcType=VARCHAR},</if>
+                    <if test="level != null  ">level = #{level,jdbcType=INTEGER},</if>
+                    <if test="levelName != null  and levelName != ''  ">level_name = #{levelName,jdbcType=VARCHAR},</if>
+                    <if test="itemOrder != null  ">item_order = #{itemOrder,jdbcType=INTEGER},</if>
+        </trim>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateParamsBySelective" parameterType="TSubject">
+        update t_subject
+        <trim prefix="SET" suffixOverrides=",">
+                    <if test="params.name != null  and params.name != ''  ">name = #{params.name,jdbcType=VARCHAR},</if>
+                    <if test="params.level != null  ">level = #{params.level,jdbcType=INTEGER},</if>
+                    <if test="params.levelName != null  and params.levelName != ''  ">level_name = #{params.levelName,jdbcType=VARCHAR},</if>
+                    <if test="params.itemOrder != null  ">item_order = #{params.itemOrder,jdbcType=INTEGER},</if>
+        </trim>
+        where 1=1
+                <if test="record.id != null ">
+                    and id = #{record.id,jdbcType=INTEGER}
+                </if>
+                <if test="record.name != null  and record.name != '' ">
+                    and name = #{record.name,jdbcType=VARCHAR}
+                </if>
+                <if test="record.level != null ">
+                    and level = #{record.level,jdbcType=INTEGER}
+                </if>
+                <if test="record.levelName != null  and record.levelName != '' ">
+                    and level_name = #{record.levelName,jdbcType=VARCHAR}
+                </if>
+                <if test="record.itemOrder != null ">
+                    and item_order = #{record.itemOrder,jdbcType=INTEGER}
+                </if>
+
+
+    </update>
+
+
+    <update id="updateBatch" parameterType="java.util.List">
+        update t_subject
+        <trim prefix="SET" suffixOverrides=",">
+                    <trim prefix="name = case" suffix="end,">
+                        <foreach collection="list" index="index" item="records">
+                            when id = #{records.id,jdbcType=INTEGER} then #{records.name,jdbcType=VARCHAR}
+                        </foreach>
+                    </trim>
+                    <trim prefix="level = case" suffix="end,">
+                        <foreach collection="list" index="index" item="records">
+                            when id = #{records.id,jdbcType=INTEGER} then #{records.level,jdbcType=INTEGER}
+                        </foreach>
+                    </trim>
+                    <trim prefix="level_name = case" suffix="end,">
+                        <foreach collection="list" index="index" item="records">
+                            when id = #{records.id,jdbcType=INTEGER} then #{records.levelName,jdbcType=VARCHAR}
+                        </foreach>
+                    </trim>
+                    <trim prefix="item_order = case" suffix="end,">
+                        <foreach collection="list" index="index" item="records">
+                            when id = #{records.id,jdbcType=INTEGER} then #{records.itemOrder,jdbcType=INTEGER}
+                        </foreach>
+                    </trim>
+        </trim>
+        where id in
+        <foreach collection="list" item="records" open="(" close=")" separator=", ">
+            #{records.id}
+        </foreach>
+    </update>
+
+    <update id="updateBatchSelective" parameterType="java.util.List">
+        update t_subject
+        <trim prefix="SET" suffixOverrides=",">
+                    <trim prefix="name = case" suffix="end,">
+                        <foreach collection="list" index="index" item="records">
+                            <if test="records.name != null  and records.name != ''  " >
+                            when id = #{records.id,jdbcType=INTEGER} then #{records.name,jdbcType=VARCHAR}
+                            </if>
+                        </foreach>
+                    </trim>
+                    <trim prefix="level = case" suffix="end,">
+                        <foreach collection="list" index="index" item="records">
+                            <if test="records.level != null  " >
+                            when id = #{records.id,jdbcType=INTEGER} then #{records.level,jdbcType=INTEGER}
+                            </if>
+                        </foreach>
+                    </trim>
+                    <trim prefix="level_name = case" suffix="end,">
+                        <foreach collection="list" index="index" item="records">
+                            <if test="records.levelName != null  and records.levelName != ''  " >
+                            when id = #{records.id,jdbcType=INTEGER} then #{records.levelName,jdbcType=VARCHAR}
+                            </if>
+                        </foreach>
+                    </trim>
+                    <trim prefix="item_order = case" suffix="end,">
+                        <foreach collection="list" index="index" item="records">
+                            <if test="records.itemOrder != null  " >
+                            when id = #{records.id,jdbcType=INTEGER} then #{records.itemOrder,jdbcType=INTEGER}
+                            </if>
+                        </foreach>
+                    </trim>
+        </trim>
+        where id in
+        <foreach collection="list" item="records" open="(" close=")" separator=", ">
+            #{records.id}
+        </foreach>
+    </update>
+    <update id="deleteBySelective" parameterType="java.lang.Integer">
+        update t_subject
+        set is_delete = 1
+        where 1=1
+                <if test="id != null ">
+                    and id = #{id,jdbcType=INTEGER}
+                </if>
+                <if test="name != null  and name != '' ">
+                    and name = #{name,jdbcType=VARCHAR}
+                </if>
+                <if test="level != null ">
+                    and level = #{level,jdbcType=INTEGER}
+                </if>
+                <if test="levelName != null  and levelName != '' ">
+                    and level_name = #{levelName,jdbcType=VARCHAR}
+                </if>
+                <if test="itemOrder != null ">
+                    and item_order = #{itemOrder,jdbcType=INTEGER}
+                </if>
+    </update>
+    <update id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        update t_subject set is_delete = 1
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="deleteByPrimaryKeys" parameterType="java.util.List">
+       update t_subject set is_delete = 1
+       where id in
+        <foreach collection="list" item="ids" index="index" open="(" close=")" separator=",">
+            #{ids}
+        </foreach>
+    </update>
+
+
+</mapper>
