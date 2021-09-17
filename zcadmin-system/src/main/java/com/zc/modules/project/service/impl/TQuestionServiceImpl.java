@@ -1,5 +1,6 @@
 package com.zc.modules.project.service.impl;
 
+import java.util.Arrays;
 import java.util.List;
 
 import cn.hutool.core.date.DateTime;
@@ -46,6 +47,11 @@ public class TQuestionServiceImpl extends ServiceImpl<TQuestionMapper, TQuestion
         QuestionDTO questionDTO = tQuestionMapper.selectContentByPrimaryKey(id);
         if (questionDTO == null) {
             return null;
+        }
+        if (questionDTO.getQuestionType()==2){
+            String correct = questionDTO.getCorrect();
+            String[] split = correct.split(",");
+            questionDTO.setCorrectArray(Arrays.asList(split));
         }
         QuestionObject questionObject = JSONObject.parseObject(questionDTO.getContent(), QuestionObject.class);
         questionDTO.setQuestionObject(questionObject);
@@ -129,6 +135,7 @@ public class TQuestionServiceImpl extends ServiceImpl<TQuestionMapper, TQuestion
      */
     @Override
     public int insert(QuestionDTO record) {
+        handleQuestionDTO(record);
         TTextContent tTextContent = TTextContent.builder().
                 content(JSON.toJSONString(record.getQuestionObject()))
                 .build();
@@ -136,6 +143,16 @@ public class TQuestionServiceImpl extends ServiceImpl<TQuestionMapper, TQuestion
         tTextContentMapper.insert(tTextContent);
         record.setInfoTextContentId(tTextContent.getId());
         return tQuestionMapper.insert(record);
+    }
+
+    public void handleQuestionDTO(QuestionDTO record) {
+        if (record.getQuestionType() == 2) {
+            List<String> correctArray = record.getCorrectArray();
+            if (!correctArray.isEmpty()) {
+                String join = String.join(",", correctArray);
+                record.setCorrect(join);
+            }
+        }
     }
 
     /**
@@ -178,7 +195,7 @@ public class TQuestionServiceImpl extends ServiceImpl<TQuestionMapper, TQuestion
      */
     @Override
     public int update(QuestionDTO record) {
-
+        handleQuestionDTO(record);
         TTextContent tTextContent = TTextContent.builder().
                 content(JSON.toJSONString(record.getQuestionObject()))
                 .build();

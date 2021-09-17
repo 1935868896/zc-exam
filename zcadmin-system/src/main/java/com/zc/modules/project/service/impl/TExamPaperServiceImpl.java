@@ -175,9 +175,8 @@ public class TExamPaperServiceImpl extends ServiceImpl<TExamPaperMapper, TExamPa
         for (TitleItem titleItem : titleItems) {
             List<QuestionItem> questionItems = titleItem.getQuestionItems();
             if (!questionItems.isEmpty()){
-                questionNum=questionNum+questionItems.size();
                 for (int i = 0; i < questionItems.size(); i++) {
-                    questionItems.get(i).setItemOrder(i+1);
+                    questionItems.get(i).setItemOrder(++questionNum);
                 }
             }
         }
