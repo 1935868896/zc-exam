@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import cn.hutool.core.date.DateTime;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.zc.exception.BadRequestException;
 import com.zc.modules.project.dto.PaperDTO;
 import com.zc.modules.project.dto.QuestionDTO;
 import com.zc.modules.project.entity.TTextContent;
@@ -153,32 +154,35 @@ public class TExamPaperServiceImpl extends ServiceImpl<TExamPaperMapper, TExamPa
      */
     @Override
     public int insert(PaperDTO record) {
-        List<TitleItem> titleItems = record.getTitleItems();
-        if (titleItems.isEmpty()){
-            log.error("titleItems 数值为空");
-            return 0;
-        }
-        int questionNum=0;
-            for (TitleItem titleItem : titleItems) {
-                List<QuestionItem> questionItems = titleItem.getQuestionItems();
-                if (!questionItems.isEmpty()){
-                    questionNum=questionNum+questionItems.size();
-                    for (int i = 0; i < questionItems.size(); i++) {
-                        questionItems.get(i).setItemOrder(i+1);
-                    }
-                }
-            }
+        handlePaperDTO(record);
 
         TTextContent tTextContent=new TTextContent();
         tTextContent.setCreateTime(new DateTime());
-        tTextContent.setContent(JSONObject.toJSONString(titleItems));
+        tTextContent.setContent(JSONObject.toJSONString(record.getTitleItems()));
         tTextContentMapper.insert(tTextContent);
 
-        TExamPaper tExamPaper=new TExamPaper();
-        BeanUtils.copyProperties(record,tExamPaper);
-        tExamPaper.setQuestionCount(questionNum);
-        tExamPaper.setFrameTextContentId(tTextContent.getId());
-        return tExamPaperMapper.insert(tExamPaper);
+        record.setFrameTextContentId(tTextContent.getId());
+        return tExamPaperMapper.insert(record);
+    }
+
+    public void handlePaperDTO(PaperDTO record){
+        List<TitleItem> titleItems = record.getTitleItems();
+        if (titleItems.isEmpty()){
+            log.error("titleItems 数值为空");
+            throw new BadRequestException("该试卷没有题目");
+        }
+        int questionNum=0;
+        for (TitleItem titleItem : titleItems) {
+            List<QuestionItem> questionItems = titleItem.getQuestionItems();
+            if (!questionItems.isEmpty()){
+                questionNum=questionNum+questionItems.size();
+                for (int i = 0; i < questionItems.size(); i++) {
+                    questionItems.get(i).setItemOrder(i+1);
+                }
+            }
+        }
+        record.setQuestionCount(questionNum);
+
     }
 
     /**
@@ -220,7 +224,16 @@ public class TExamPaperServiceImpl extends ServiceImpl<TExamPaperMapper, TExamPa
      * @return 修改数量
      */
     @Override
-    public int update(TExamPaper record) {
+    public int update(PaperDTO record) {
+        handlePaperDTO(record);
+
+        TTextContent tTextContent=new TTextContent();
+        tTextContent.setCreateTime(new DateTime());
+        tTextContent.setContent(JSONObject.toJSONString(record.getTitleItems()));
+        tTextContent.setId(record.getFrameTextContentId());
+        tTextContentMapper.update(tTextContent);
+
+
         return tExamPaperMapper.update(record);
     }
 

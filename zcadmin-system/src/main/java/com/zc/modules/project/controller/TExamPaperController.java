@@ -1,8 +1,9 @@
 package com.zc.modules.project.controller;
-    import com.baomidou.mybatisplus.core.metadata.IPage;
+
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-    import com.zc.modules.project.dto.PaperDTO;
-    import io.swagger.annotations.Api;
+import com.zc.modules.project.dto.PaperDTO;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -10,10 +11,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
-    import com.zc.annotation.Log;
+import com.zc.annotation.Log;
 import com.zc.entity.ResultResponse;
 import org.springframework.security.access.prepost.PreAuthorize;
-    import com.zc.modules.project.entity.TExamPaper;
+import com.zc.modules.project.entity.TExamPaper;
 import com.zc.modules.project.service.TExamPaperService;
 
 /**
@@ -109,7 +110,12 @@ public class TExamPaperController {
     @Log("试卷信息管理:插入单条数据")
     @PreAuthorize("@el.check('tExamPaper:insert')")
     public ResultResponse insert(@RequestBody PaperDTO record) {
-        int result = tExamPaperService.insert(record);
+        int result = 0;
+        if (record.getId() == null) {
+            result = tExamPaperService.insert(record);
+        } else {
+            result = tExamPaperService.update(record);
+        }
         if (result > 0) {
             return ResultResponse.success(record);
         }
@@ -134,7 +140,7 @@ public class TExamPaperController {
     @PutMapping
     @Log("试卷信息管理:修改数据")
     @PreAuthorize("@el.check('tExamPaper:update')")
-    public ResultResponse update(@RequestBody TExamPaper record) {
+    public ResultResponse update(@RequestBody PaperDTO record) {
         int result = tExamPaperService.update(record);
         if (result > 0) {
             return ResultResponse.success();

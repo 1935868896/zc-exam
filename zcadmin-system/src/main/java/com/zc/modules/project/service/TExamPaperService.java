@@ -96,7 +96,7 @@ public interface TExamPaperService extends IService<TExamPaper> {
      * @param record 试卷 信息
      * @return 修改数量
      */
-    int update(TExamPaper record);
+    int update(PaperDTO record);
 
     /**
      * 修改单条数据,仅修改存在数值的属性
