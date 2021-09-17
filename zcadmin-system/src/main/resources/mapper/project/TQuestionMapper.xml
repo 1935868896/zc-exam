@@ -196,7 +196,16 @@
         </if>
 
     </select>
+    <select id="selectContentByPrimaryKeys" parameterType="java.util.List"
+            resultType="com.zc.modules.project.dto.QuestionDTO">
+        SELECT tq.*,tc.content FROM  t_question as tq left join t_text_content as tc
+        on tq.info_text_content_id=tc.id where tq.id in
+        <foreach collection="list" item="ids" index="index" open="(" close=")" separator=",">
+            #{ids}
+        </foreach>
+        and tq.is_delete =0
 
+    </select>
     <select id="selectByPrimaryKeys" parameterType="java.util.List"
             resultMap="BaseResultMap">
         select

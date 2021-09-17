@@ -1,14 +1,19 @@
 package com.zc.modules.project.service.impl;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import cn.hutool.core.date.DateTime;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.zc.modules.project.dto.PaperDTO;
+import com.zc.modules.project.dto.QuestionDTO;
 import com.zc.modules.project.entity.TTextContent;
 import com.zc.modules.project.entity.paper.QuestionItem;
 import com.zc.modules.project.entity.paper.TitleItem;
+import com.zc.modules.project.entity.question.QuestionObject;
+import com.zc.modules.project.mapper.TQuestionMapper;
 import com.zc.modules.project.mapper.TTextContentMapper;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -37,6 +42,7 @@ public class TExamPaperServiceImpl extends ServiceImpl<TExamPaperMapper, TExamPa
 
     private final TExamPaperMapper tExamPaperMapper;
     private final TTextContentMapper tTextContentMapper;
+    private final TQuestionMapper tQuestionMapper;
 
     /**
      * 查询试卷信息
@@ -50,8 +56,31 @@ public class TExamPaperServiceImpl extends ServiceImpl<TExamPaperMapper, TExamPa
         TTextContent tTextContent = tTextContentMapper.selectByPrimaryKey(tExamPaper.getFrameTextContentId());
         PaperDTO paperDTO=new PaperDTO();
         BeanUtils.copyProperties(tExamPaper,paperDTO);
+
         List<TitleItem> titleItems = JSONArray.parseArray(tTextContent.getContent(), TitleItem.class);
         paperDTO.setTitleItems(titleItems);
+        //查到question的值
+        List<Integer> ids = titleItems.stream()
+                .flatMap(titleItem -> titleItem.getQuestionItems().stream().map(questionItem -> questionItem.getId()))
+                .collect(Collectors.toList());
+
+        List<QuestionDTO> questionDTOS = tQuestionMapper.selectContentByPrimaryKeys(ids);
+
+        Map<Integer, QuestionDTO> questionDTOSMap = questionDTOS.stream().collect(Collectors.toMap(
+                QuestionDTO::getId, v -> v
+        ));
+        titleItems.forEach(
+                v->{
+                    v.getQuestionItems().forEach(
+                            qv->{
+                                QuestionDTO questionDTO = questionDTOSMap.get(qv.getId());
+                                qv.setQuestionObject(JSONObject.parseObject(questionDTO.getContent(), QuestionObject.class));
+                                qv.setQuestionType(questionDTO.getQuestionType());
+                            }
+                    );
+                }
+        );
+
         return paperDTO;
     }
 

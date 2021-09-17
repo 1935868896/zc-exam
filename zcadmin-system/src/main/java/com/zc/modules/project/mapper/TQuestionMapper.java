@@ -27,7 +27,7 @@ public interface TQuestionMapper extends BaseMapper<TQuestion> {
     TQuestion selectByPrimaryKey(Integer id);
 
     @Select("SELECT tq.*,tc.content FROM  t_question as tq left join t_text_content as tc\n" +
-            "on tq.info_text_content_id=tc.id where tq.id=#{id}\n")
+            "on tq.info_text_content_id=tc.id where tq.id=#{id} and tq.is_delete=0")
     QuestionDTO selectContentByPrimaryKey(Integer id);
 
 
@@ -64,8 +64,11 @@ public interface TQuestionMapper extends BaseMapper<TQuestion> {
      * @param ids 问题主键List集合
      * @return 问题集合
      */
+
     List<TQuestion> selectByPrimaryKeys(List<Integer> ids);
 
+
+    List<QuestionDTO> selectContentByPrimaryKeys(List<Integer> ids);
     /**
      * 查询符合条件的语句数量
      *

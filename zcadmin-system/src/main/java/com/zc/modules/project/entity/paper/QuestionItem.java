@@ -17,10 +17,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 @AllArgsConstructor
 @Data
 public class QuestionItem {
-    private Long Id;
+    private Integer Id;
     private Integer itemOrder;
+
     @JSONField(serialize = false)
     private Long score;
+
+    @JSONField(serialize = false)
+    private Integer questionType;
+
+    @JSONField(serialize = false)
     private QuestionObject questionObject;
 
 }
