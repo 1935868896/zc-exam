@@ -1,0 +1,661 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zc.modules.project.mapper.TExamPaperQuestionCustomerAnswerMapper">
+    <resultMap type="TExamPaperQuestionCustomerAnswer" id="BaseResultMap">
+            <result property="id" jdbcType="INTEGER" column="id"/>
+            <result property="questionId" jdbcType="INTEGER" column="question_id"/>
+            <result property="examPaperId" jdbcType="INTEGER" column="exam_paper_id"/>
+            <result property="examPaperAnswerId" jdbcType="INTEGER" column="exam_paper_answer_id"/>
+            <result property="questionType" jdbcType="INTEGER" column="question_type"/>
+            <result property="subjectId" jdbcType="INTEGER" column="subject_id"/>
+            <result property="customerScore" jdbcType="INTEGER" column="customer_score"/>
+            <result property="questionScore" jdbcType="INTEGER" column="question_score"/>
+            <result property="questionTextContentId" jdbcType="INTEGER" column="question_text_content_id"/>
+            <result property="answer" jdbcType="VARCHAR" column="answer"/>
+            <result property="textContentId" jdbcType="INTEGER" column="text_content_id"/>
+            <result property="doRight" jdbcType="BIT" column="do_right"/>
+            <result property="createUser" jdbcType="INTEGER" column="create_user"/>
+            <result property="createTime" jdbcType="TIMESTAMP" column="create_time"/>
+            <result property="itemOrder" jdbcType="INTEGER" column="item_order"/>
+    </resultMap>
+            <sql id="Base_Column_List">
+id,question_id,exam_paper_id,exam_paper_answer_id,question_type,subject_id,customer_score,question_score,question_text_content_id,answer,text_content_id,do_right,create_user,create_time,item_order
+    </sql>
+        <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_exam_paper_question_customer_answer
+        where id = #{id,jdbcType=INTEGER}
+</select>
+
+    <select id="selectListBySelective" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_exam_paper_question_customer_answer
+        where 1=1
+        <if test="id != null ">
+            and id = #{id,jdbcType=INTEGER}
+        </if>
+        <if test="questionId != null ">
+            and question_id = #{questionId,jdbcType=INTEGER}
+        </if>
+        <if test="examPaperId != null ">
+            and exam_paper_id = #{examPaperId,jdbcType=INTEGER}
+        </if>
+        <if test="examPaperAnswerId != null ">
+            and exam_paper_answer_id = #{examPaperAnswerId,jdbcType=INTEGER}
+        </if>
+        <if test="questionType != null ">
+            and question_type = #{questionType,jdbcType=INTEGER}
+        </if>
+        <if test="subjectId != null ">
+            and subject_id = #{subjectId,jdbcType=INTEGER}
+        </if>
+        <if test="customerScore != null ">
+            and customer_score = #{customerScore,jdbcType=INTEGER}
+        </if>
+        <if test="questionScore != null ">
+            and question_score = #{questionScore,jdbcType=INTEGER}
+        </if>
+        <if test="questionTextContentId != null ">
+            and question_text_content_id = #{questionTextContentId,jdbcType=INTEGER}
+        </if>
+        <if test="answer != null  and answer != '' ">
+            and answer = #{answer,jdbcType=VARCHAR}
+        </if>
+        <if test="textContentId != null ">
+            and text_content_id = #{textContentId,jdbcType=INTEGER}
+        </if>
+        <if test="doRight != null ">
+            and do_right = #{doRight,jdbcType=BIT}
+        </if>
+        <if test="createUser != null ">
+            and create_user = #{createUser,jdbcType=INTEGER}
+        </if>
+        <if test="createTime != null ">
+            and create_time = #{createTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="itemOrder != null ">
+            and item_order = #{itemOrder,jdbcType=INTEGER}
+        </if>
+    </select>
+
+    <select id="selectOneBySelective" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_exam_paper_question_customer_answer
+        where 1=1
+                <if test="id != null ">
+                    and id = #{id,jdbcType=INTEGER}
+                </if>
+                <if test="questionId != null ">
+                    and question_id = #{questionId,jdbcType=INTEGER}
+                </if>
+                <if test="examPaperId != null ">
+                    and exam_paper_id = #{examPaperId,jdbcType=INTEGER}
+                </if>
+                <if test="examPaperAnswerId != null ">
+                    and exam_paper_answer_id = #{examPaperAnswerId,jdbcType=INTEGER}
+                </if>
+                <if test="questionType != null ">
+                    and question_type = #{questionType,jdbcType=INTEGER}
+                </if>
+                <if test="subjectId != null ">
+                    and subject_id = #{subjectId,jdbcType=INTEGER}
+                </if>
+                <if test="customerScore != null ">
+                    and customer_score = #{customerScore,jdbcType=INTEGER}
+                </if>
+                <if test="questionScore != null ">
+                    and question_score = #{questionScore,jdbcType=INTEGER}
+                </if>
+                <if test="questionTextContentId != null ">
+                    and question_text_content_id = #{questionTextContentId,jdbcType=INTEGER}
+                </if>
+                <if test="answer != null  and answer != '' ">
+                    and answer = #{answer,jdbcType=VARCHAR}
+                </if>
+                <if test="textContentId != null ">
+                    and text_content_id = #{textContentId,jdbcType=INTEGER}
+                </if>
+                <if test="doRight != null ">
+                    and do_right = #{doRight,jdbcType=BIT}
+                </if>
+                <if test="createUser != null ">
+                    and create_user = #{createUser,jdbcType=INTEGER}
+                </if>
+                <if test="createTime != null ">
+                    and create_time = #{createTime,jdbcType=TIMESTAMP}
+                </if>
+                <if test="itemOrder != null ">
+                    and item_order = #{itemOrder,jdbcType=INTEGER}
+                </if>
+        limit 1
+    </select>
+
+
+    <select id="selectPageBySelective" resultType="com.zc.modules.project.dto.QuestionErrorDTO">
+        SELECT
+        epqca.*,
+        ts.NAME as subject_name,
+        ttc.content as question_content
+        FROM
+        t_exam_paper_question_customer_answer AS epqca
+        LEFT JOIN t_subject AS ts ON ts.id = epqca.subject_id
+        LEFT JOIN t_text_content AS ttc ON epqca.question_text_content_id = ttc.id
+        where 1=1
+                <if test="record.id != null ">
+                    and epqca.id = #{record.id,jdbcType=INTEGER}
+                </if>
+                <if test="record.questionId != null ">
+                    and epqca.question_id = #{record.questionId,jdbcType=INTEGER}
+                </if>
+                <if test="record.examPaperId != null ">
+                    and epqca.exam_paper_id = #{record.examPaperId,jdbcType=INTEGER}
+                </if>
+                <if test="record.examPaperAnswerId != null ">
+                    and epqca.exam_paper_answer_id = #{record.examPaperAnswerId,jdbcType=INTEGER}
+                </if>
+                <if test="record.questionType != null ">
+                    and epqca.question_type = #{record.questionType,jdbcType=INTEGER}
+                </if>
+                <if test="record.subjectId != null ">
+                    and epqca.subject_id = #{record.subjectId,jdbcType=INTEGER}
+                </if>
+                <if test="record.customerScore != null ">
+                    and epqca.customer_score = #{record.customerScore,jdbcType=INTEGER}
+                </if>
+                <if test="record.questionScore != null ">
+                    and epqca.question_score = #{record.questionScore,jdbcType=INTEGER}
+                </if>
+                <if test="record.questionTextContentId != null ">
+                    and epqca.question_text_content_id = #{record.questionTextContentId,jdbcType=INTEGER}
+                </if>
+                <if test="record.answer != null  and record.answer != '' ">
+                    and epqca.answer = #{record.answer,jdbcType=VARCHAR}
+                </if>
+                <if test="record.textContentId != null ">
+                    and epqca.text_content_id = #{record.textContentId,jdbcType=INTEGER}
+                </if>
+                <if test="record.doRight != null ">
+                    and epqca.do_right = #{record.doRight,jdbcType=BIT}
+                </if>
+                <if test="record.createUser != null ">
+                    and epqca.create_user = #{record.createUser,jdbcType=INTEGER}
+                </if>
+                <if test="record.createTime != null ">
+                    and epqca.create_time = #{record.createTime,jdbcType=TIMESTAMP}
+                </if>
+                <if test="record.itemOrder != null ">
+                    and epqca.item_order = #{record.itemOrder,jdbcType=INTEGER}
+                </if>
+    </select>
+
+    <select id="selectByPrimaryKeys" parameterType="java.util.List"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_exam_paper_question_customer_answer
+        where id in
+        <foreach collection="list" item="ids" index="index" open="(" close=")" separator=",">
+            #{ids}
+        </foreach>
+    </select>
+
+    <select id="selectCountBySelective" resultType="java.lang.Integer">
+        select
+        count(1)
+        from t_exam_paper_question_customer_answer
+        where 1=1
+                <if test="id != null ">
+                    and id = #{id,jdbcType=INTEGER}
+                </if>
+                <if test="questionId != null ">
+                    and question_id = #{questionId,jdbcType=INTEGER}
+                </if>
+                <if test="examPaperId != null ">
+                    and exam_paper_id = #{examPaperId,jdbcType=INTEGER}
+                </if>
+                <if test="examPaperAnswerId != null ">
+                    and exam_paper_answer_id = #{examPaperAnswerId,jdbcType=INTEGER}
+                </if>
+                <if test="questionType != null ">
+                    and question_type = #{questionType,jdbcType=INTEGER}
+                </if>
+                <if test="subjectId != null ">
+                    and subject_id = #{subjectId,jdbcType=INTEGER}
+                </if>
+                <if test="customerScore != null ">
+                    and customer_score = #{customerScore,jdbcType=INTEGER}
+                </if>
+                <if test="questionScore != null ">
+                    and question_score = #{questionScore,jdbcType=INTEGER}
+                </if>
+                <if test="questionTextContentId != null ">
+                    and question_text_content_id = #{questionTextContentId,jdbcType=INTEGER}
+                </if>
+                <if test="answer != null  and answer != '' ">
+                    and answer = #{answer,jdbcType=VARCHAR}
+                </if>
+                <if test="textContentId != null ">
+                    and text_content_id = #{textContentId,jdbcType=INTEGER}
+                </if>
+                <if test="doRight != null ">
+                    and do_right = #{doRight,jdbcType=BIT}
+                </if>
+                <if test="createUser != null ">
+                    and create_user = #{createUser,jdbcType=INTEGER}
+                </if>
+                <if test="createTime != null ">
+                    and create_time = #{createTime,jdbcType=TIMESTAMP}
+                </if>
+                <if test="itemOrder != null ">
+                    and item_order = #{itemOrder,jdbcType=INTEGER}
+                </if>
+    </select>
+
+    <insert id="insert" parameterType="TExamPaperQuestionCustomerAnswer"             useGeneratedKeys="true" keyProperty="id">
+        insert into t_exam_paper_question_customer_answer
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+ id, question_id, exam_paper_id, exam_paper_answer_id, question_type, subject_id, customer_score, question_score, question_text_content_id, answer, text_content_id, do_right, create_user, create_time, item_order,</trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+         #{id,jdbcType=INTEGER},         #{questionId,jdbcType=INTEGER},         #{examPaperId,jdbcType=INTEGER},         #{examPaperAnswerId,jdbcType=INTEGER},         #{questionType,jdbcType=INTEGER},         #{subjectId,jdbcType=INTEGER},         #{customerScore,jdbcType=INTEGER},         #{questionScore,jdbcType=INTEGER},         #{questionTextContentId,jdbcType=INTEGER},         #{answer,jdbcType=VARCHAR},         #{textContentId,jdbcType=INTEGER},         #{doRight,jdbcType=BIT},         #{createUser,jdbcType=INTEGER},         #{createTime,jdbcType=TIMESTAMP},         #{itemOrder,jdbcType=INTEGER},        </trim>
+    </insert>
+
+    <insert id="insertSelective" parameterType="TExamPaperQuestionCustomerAnswer"            useGeneratedKeys="true" keyProperty="id">
+        insert into t_exam_paper_question_customer_answer
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                    <if test="questionId != null  ">question_id,</if>
+                    <if test="examPaperId != null  ">exam_paper_id,</if>
+                    <if test="examPaperAnswerId != null  ">exam_paper_answer_id,</if>
+                    <if test="questionType != null  ">question_type,</if>
+                    <if test="subjectId != null  ">subject_id,</if>
+                    <if test="customerScore != null  ">customer_score,</if>
+                    <if test="questionScore != null  ">question_score,</if>
+                    <if test="questionTextContentId != null  ">question_text_content_id,</if>
+                    <if test="answer != null  and answer != ''  ">answer,</if>
+                    <if test="textContentId != null  ">text_content_id,</if>
+                    <if test="doRight != null  ">do_right,</if>
+                    <if test="createUser != null  ">create_user,</if>
+                    <if test="createTime != null  ">create_time,</if>
+                    <if test="itemOrder != null  ">item_order,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                    <if test="questionId != null  ">#{questionId,jdbcType=INTEGER},</if>
+                    <if test="examPaperId != null  ">#{examPaperId,jdbcType=INTEGER},</if>
+                    <if test="examPaperAnswerId != null  ">#{examPaperAnswerId,jdbcType=INTEGER},</if>
+                    <if test="questionType != null  ">#{questionType,jdbcType=INTEGER},</if>
+                    <if test="subjectId != null  ">#{subjectId,jdbcType=INTEGER},</if>
+                    <if test="customerScore != null  ">#{customerScore,jdbcType=INTEGER},</if>
+                    <if test="questionScore != null  ">#{questionScore,jdbcType=INTEGER},</if>
+                    <if test="questionTextContentId != null  ">#{questionTextContentId,jdbcType=INTEGER},</if>
+                    <if test="answer != null  and answer != ''  ">#{answer,jdbcType=VARCHAR},</if>
+                    <if test="textContentId != null  ">#{textContentId,jdbcType=INTEGER},</if>
+                    <if test="doRight != null  ">#{doRight,jdbcType=BIT},</if>
+                    <if test="createUser != null  ">#{createUser,jdbcType=INTEGER},</if>
+                    <if test="createTime != null  ">#{createTime,jdbcType=TIMESTAMP},</if>
+                    <if test="itemOrder != null  ">#{itemOrder,jdbcType=INTEGER},</if>
+        </trim>
+    </insert>
+
+
+    <insert id="insertBatch" parameterType="java.util.List"             useGeneratedKeys="true" keyProperty="id">
+        insert into  t_exam_paper_question_customer_answer
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+id,question_id,exam_paper_id,exam_paper_answer_id,question_type,subject_id,customer_score,question_score,question_text_content_id,answer,text_content_id,do_right,create_user,create_time,item_order,        </trim>
+        values
+        <foreach collection="recordList" item="record" index="index" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                #{record.id,jdbcType=INTEGER},                #{record.questionId,jdbcType=INTEGER},                #{record.examPaperId,jdbcType=INTEGER},                #{record.examPaperAnswerId,jdbcType=INTEGER},                #{record.questionType,jdbcType=INTEGER},                #{record.subjectId,jdbcType=INTEGER},                #{record.customerScore,jdbcType=INTEGER},                #{record.questionScore,jdbcType=INTEGER},                #{record.questionTextContentId,jdbcType=INTEGER},                #{record.answer,jdbcType=VARCHAR},                #{record.textContentId,jdbcType=INTEGER},                #{record.doRight,jdbcType=BIT},                #{record.createUser,jdbcType=INTEGER},                #{record.createTime,jdbcType=TIMESTAMP},                #{record.itemOrder,jdbcType=INTEGER},            </trim>
+        </foreach>
+    </insert>
+
+    <update id="update" parameterType="TExamPaperQuestionCustomerAnswer">
+        update t_exam_paper_question_customer_answer
+        <trim prefix="SET" suffixOverrides=",">
+ id =#{id,jdbcType=INTEGER}, question_id =#{questionId,jdbcType=INTEGER}, exam_paper_id =#{examPaperId,jdbcType=INTEGER}, exam_paper_answer_id =#{examPaperAnswerId,jdbcType=INTEGER}, question_type =#{questionType,jdbcType=INTEGER}, subject_id =#{subjectId,jdbcType=INTEGER}, customer_score =#{customerScore,jdbcType=INTEGER}, question_score =#{questionScore,jdbcType=INTEGER}, question_text_content_id =#{questionTextContentId,jdbcType=INTEGER}, answer =#{answer,jdbcType=VARCHAR}, text_content_id =#{textContentId,jdbcType=INTEGER}, do_right =#{doRight,jdbcType=BIT}, create_user =#{createUser,jdbcType=INTEGER}, create_time =#{createTime,jdbcType=TIMESTAMP}, item_order =#{itemOrder,jdbcType=INTEGER},        </trim>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateSelective" parameterType="TExamPaperQuestionCustomerAnswer">
+        update t_exam_paper_question_customer_answer
+        <trim prefix="SET" suffixOverrides=",">
+                    <if test="questionId != null  ">question_id = #{questionId,jdbcType=INTEGER},</if>
+                    <if test="examPaperId != null  ">exam_paper_id = #{examPaperId,jdbcType=INTEGER},</if>
+                    <if test="examPaperAnswerId != null  ">exam_paper_answer_id = #{examPaperAnswerId,jdbcType=INTEGER},</if>
+                    <if test="questionType != null  ">question_type = #{questionType,jdbcType=INTEGER},</if>
+                    <if test="subjectId != null  ">subject_id = #{subjectId,jdbcType=INTEGER},</if>
+                    <if test="customerScore != null  ">customer_score = #{customerScore,jdbcType=INTEGER},</if>
+                    <if test="questionScore != null  ">question_score = #{questionScore,jdbcType=INTEGER},</if>
+                    <if test="questionTextContentId != null  ">question_text_content_id = #{questionTextContentId,jdbcType=INTEGER},</if>
+                    <if test="answer != null  and answer != ''  ">answer = #{answer,jdbcType=VARCHAR},</if>
+                    <if test="textContentId != null  ">text_content_id = #{textContentId,jdbcType=INTEGER},</if>
+                    <if test="doRight != null  ">do_right = #{doRight,jdbcType=BIT},</if>
+                    <if test="createUser != null  ">create_user = #{createUser,jdbcType=INTEGER},</if>
+                    <if test="createTime != null  ">create_time = #{createTime,jdbcType=TIMESTAMP},</if>
+                    <if test="itemOrder != null  ">item_order = #{itemOrder,jdbcType=INTEGER},</if>
+        </trim>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateParamsBySelective" parameterType="TExamPaperQuestionCustomerAnswer">
+        update t_exam_paper_question_customer_answer
+        <trim prefix="SET" suffixOverrides=",">
+                    <if test="params.questionId != null  ">question_id = #{params.questionId,jdbcType=INTEGER},</if>
+                    <if test="params.examPaperId != null  ">exam_paper_id = #{params.examPaperId,jdbcType=INTEGER},</if>
+                    <if test="params.examPaperAnswerId != null  ">exam_paper_answer_id = #{params.examPaperAnswerId,jdbcType=INTEGER},</if>
+                    <if test="params.questionType != null  ">question_type = #{params.questionType,jdbcType=INTEGER},</if>
+                    <if test="params.subjectId != null  ">subject_id = #{params.subjectId,jdbcType=INTEGER},</if>
+                    <if test="params.customerScore != null  ">customer_score = #{params.customerScore,jdbcType=INTEGER},</if>
+                    <if test="params.questionScore != null  ">question_score = #{params.questionScore,jdbcType=INTEGER},</if>
+                    <if test="params.questionTextContentId != null  ">question_text_content_id = #{params.questionTextContentId,jdbcType=INTEGER},</if>
+                    <if test="params.answer != null  and params.answer != ''  ">answer = #{params.answer,jdbcType=VARCHAR},</if>
+                    <if test="params.textContentId != null  ">text_content_id = #{params.textContentId,jdbcType=INTEGER},</if>
+                    <if test="params.doRight != null  ">do_right = #{params.doRight,jdbcType=BIT},</if>
+                    <if test="params.createUser != null  ">create_user = #{params.createUser,jdbcType=INTEGER},</if>
+                    <if test="params.createTime != null  ">create_time = #{params.createTime,jdbcType=TIMESTAMP},</if>
+                    <if test="params.itemOrder != null  ">item_order = #{params.itemOrder,jdbcType=INTEGER},</if>
+        </trim>
+        where 1=1
+                <if test="record.id != null ">
+                    and id = #{record.id,jdbcType=INTEGER}
+                </if>
+                <if test="record.questionId != null ">
+                    and question_id = #{record.questionId,jdbcType=INTEGER}
+                </if>
+                <if test="record.examPaperId != null ">
+                    and exam_paper_id = #{record.examPaperId,jdbcType=INTEGER}
+                </if>
+                <if test="record.examPaperAnswerId != null ">
+                    and exam_paper_answer_id = #{record.examPaperAnswerId,jdbcType=INTEGER}
+                </if>
+                <if test="record.questionType != null ">
+                    and question_type = #{record.questionType,jdbcType=INTEGER}
+                </if>
+                <if test="record.subjectId != null ">
+                    and subject_id = #{record.subjectId,jdbcType=INTEGER}
+                </if>
+                <if test="record.customerScore != null ">
+                    and customer_score = #{record.customerScore,jdbcType=INTEGER}
+                </if>
+                <if test="record.questionScore != null ">
+                    and question_score = #{record.questionScore,jdbcType=INTEGER}
+                </if>
+                <if test="record.questionTextContentId != null ">
+                    and question_text_content_id = #{record.questionTextContentId,jdbcType=INTEGER}
+                </if>
+                <if test="record.answer != null  and record.answer != '' ">
+                    and answer = #{record.answer,jdbcType=VARCHAR}
+                </if>
+                <if test="record.textContentId != null ">
+                    and text_content_id = #{record.textContentId,jdbcType=INTEGER}
+                </if>
+                <if test="record.doRight != null ">
+                    and do_right = #{record.doRight,jdbcType=BIT}
+                </if>
+                <if test="record.createUser != null ">
+                    and create_user = #{record.createUser,jdbcType=INTEGER}
+                </if>
+                <if test="record.createTime != null ">
+                    and create_time = #{record.createTime,jdbcType=TIMESTAMP}
+                </if>
+                <if test="record.itemOrder != null ">
+                    and item_order = #{record.itemOrder,jdbcType=INTEGER}
+                </if>
+
+
+    </update>
+
+
+    <update id="updateBatch" parameterType="java.util.List">
+        update t_exam_paper_question_customer_answer
+        <trim prefix="SET" suffixOverrides=",">
+                    <trim prefix="question_id = case" suffix="end,">
+                        <foreach collection="list" index="index" item="records">
+                            when id = #{records.id,jdbcType=INTEGER} then #{records.questionId,jdbcType=INTEGER}
+                        </foreach>
+                    </trim>
+                    <trim prefix="exam_paper_id = case" suffix="end,">
+                        <foreach collection="list" index="index" item="records">
+                            when id = #{records.id,jdbcType=INTEGER} then #{records.examPaperId,jdbcType=INTEGER}
+                        </foreach>
+                    </trim>
+                    <trim prefix="exam_paper_answer_id = case" suffix="end,">
+                        <foreach collection="list" index="index" item="records">
+                            when id = #{records.id,jdbcType=INTEGER} then #{records.examPaperAnswerId,jdbcType=INTEGER}
+                        </foreach>
+                    </trim>
+                    <trim prefix="question_type = case" suffix="end,">
+                        <foreach collection="list" index="index" item="records">
+                            when id = #{records.id,jdbcType=INTEGER} then #{records.questionType,jdbcType=INTEGER}
+                        </foreach>
+                    </trim>
+                    <trim prefix="subject_id = case" suffix="end,">
+                        <foreach collection="list" index="index" item="records">
+                            when id = #{records.id,jdbcType=INTEGER} then #{records.subjectId,jdbcType=INTEGER}
+                        </foreach>
+                    </trim>
+                    <trim prefix="customer_score = case" suffix="end,">
+                        <foreach collection="list" index="index" item="records">
+                            when id = #{records.id,jdbcType=INTEGER} then #{records.customerScore,jdbcType=INTEGER}
+                        </foreach>
+                    </trim>
+                    <trim prefix="question_score = case" suffix="end,">
+                        <foreach collection="list" index="index" item="records">
+                            when id = #{records.id,jdbcType=INTEGER} then #{records.questionScore,jdbcType=INTEGER}
+                        </foreach>
+                    </trim>
+                    <trim prefix="question_text_content_id = case" suffix="end,">
+                        <foreach collection="list" index="index" item="records">
+                            when id = #{records.id,jdbcType=INTEGER} then #{records.questionTextContentId,jdbcType=INTEGER}
+                        </foreach>
+                    </trim>
+                    <trim prefix="answer = case" suffix="end,">
+                        <foreach collection="list" index="index" item="records">
+                            when id = #{records.id,jdbcType=INTEGER} then #{records.answer,jdbcType=VARCHAR}
+                        </foreach>
+                    </trim>
+                    <trim prefix="text_content_id = case" suffix="end,">
+                        <foreach collection="list" index="index" item="records">
+                            when id = #{records.id,jdbcType=INTEGER} then #{records.textContentId,jdbcType=INTEGER}
+                        </foreach>
+                    </trim>
+                    <trim prefix="do_right = case" suffix="end,">
+                        <foreach collection="list" index="index" item="records">
+                            when id = #{records.id,jdbcType=INTEGER} then #{records.doRight,jdbcType=BIT}
+                        </foreach>
+                    </trim>
+                    <trim prefix="create_user = case" suffix="end,">
+                        <foreach collection="list" index="index" item="records">
+                            when id = #{records.id,jdbcType=INTEGER} then #{records.createUser,jdbcType=INTEGER}
+                        </foreach>
+                    </trim>
+                    <trim prefix="create_time = case" suffix="end,">
+                        <foreach collection="list" index="index" item="records">
+                            when id = #{records.id,jdbcType=INTEGER} then #{records.createTime,jdbcType=TIMESTAMP}
+                        </foreach>
+                    </trim>
+                    <trim prefix="item_order = case" suffix="end,">
+                        <foreach collection="list" index="index" item="records">
+                            when id = #{records.id,jdbcType=INTEGER} then #{records.itemOrder,jdbcType=INTEGER}
+                        </foreach>
+                    </trim>
+        </trim>
+        where id in
+        <foreach collection="list" item="records" open="(" close=")" separator=", ">
+            #{records.id}
+        </foreach>
+    </update>
+
+    <update id="updateBatchSelective" parameterType="java.util.List">
+        update t_exam_paper_question_customer_answer
+        <trim prefix="SET" suffixOverrides=",">
+                    <trim prefix="question_id = case" suffix="end,">
+                        <foreach collection="list" index="index" item="records">
+                            <if test="records.questionId != null  " >
+                            when id = #{records.id,jdbcType=INTEGER} then #{records.questionId,jdbcType=INTEGER}
+                            </if>
+                        </foreach>
+                    </trim>
+                    <trim prefix="exam_paper_id = case" suffix="end,">
+                        <foreach collection="list" index="index" item="records">
+                            <if test="records.examPaperId != null  " >
+                            when id = #{records.id,jdbcType=INTEGER} then #{records.examPaperId,jdbcType=INTEGER}
+                            </if>
+                        </foreach>
+                    </trim>
+                    <trim prefix="exam_paper_answer_id = case" suffix="end,">
+                        <foreach collection="list" index="index" item="records">
+                            <if test="records.examPaperAnswerId != null  " >
+                            when id = #{records.id,jdbcType=INTEGER} then #{records.examPaperAnswerId,jdbcType=INTEGER}
+                            </if>
+                        </foreach>
+                    </trim>
+                    <trim prefix="question_type = case" suffix="end,">
+                        <foreach collection="list" index="index" item="records">
+                            <if test="records.questionType != null  " >
+                            when id = #{records.id,jdbcType=INTEGER} then #{records.questionType,jdbcType=INTEGER}
+                            </if>
+                        </foreach>
+                    </trim>
+                    <trim prefix="subject_id = case" suffix="end,">
+                        <foreach collection="list" index="index" item="records">
+                            <if test="records.subjectId != null  " >
+                            when id = #{records.id,jdbcType=INTEGER} then #{records.subjectId,jdbcType=INTEGER}
+                            </if>
+                        </foreach>
+                    </trim>
+                    <trim prefix="customer_score = case" suffix="end,">
+                        <foreach collection="list" index="index" item="records">
+                            <if test="records.customerScore != null  " >
+                            when id = #{records.id,jdbcType=INTEGER} then #{records.customerScore,jdbcType=INTEGER}
+                            </if>
+                        </foreach>
+                    </trim>
+                    <trim prefix="question_score = case" suffix="end,">
+                        <foreach collection="list" index="index" item="records">
+                            <if test="records.questionScore != null  " >
+                            when id = #{records.id,jdbcType=INTEGER} then #{records.questionScore,jdbcType=INTEGER}
+                            </if>
+                        </foreach>
+                    </trim>
+                    <trim prefix="question_text_content_id = case" suffix="end,">
+                        <foreach collection="list" index="index" item="records">
+                            <if test="records.questionTextContentId != null  " >
+                            when id = #{records.id,jdbcType=INTEGER} then #{records.questionTextContentId,jdbcType=INTEGER}
+                            </if>
+                        </foreach>
+                    </trim>
+                    <trim prefix="answer = case" suffix="end,">
+                        <foreach collection="list" index="index" item="records">
+                            <if test="records.answer != null  and records.answer != ''  " >
+                            when id = #{records.id,jdbcType=INTEGER} then #{records.answer,jdbcType=VARCHAR}
+                            </if>
+                        </foreach>
+                    </trim>
+                    <trim prefix="text_content_id = case" suffix="end,">
+                        <foreach collection="list" index="index" item="records">
+                            <if test="records.textContentId != null  " >
+                            when id = #{records.id,jdbcType=INTEGER} then #{records.textContentId,jdbcType=INTEGER}
+                            </if>
+                        </foreach>
+                    </trim>
+                    <trim prefix="do_right = case" suffix="end,">
+                        <foreach collection="list" index="index" item="records">
+                            <if test="records.doRight != null  " >
+                            when id = #{records.id,jdbcType=INTEGER} then #{records.doRight,jdbcType=BIT}
+                            </if>
+                        </foreach>
+                    </trim>
+                    <trim prefix="create_user = case" suffix="end,">
+                        <foreach collection="list" index="index" item="records">
+                            <if test="records.createUser != null  " >
+                            when id = #{records.id,jdbcType=INTEGER} then #{records.createUser,jdbcType=INTEGER}
+                            </if>
+                        </foreach>
+                    </trim>
+                    <trim prefix="create_time = case" suffix="end,">
+                        <foreach collection="list" index="index" item="records">
+                            <if test="records.createTime != null  " >
+                            when id = #{records.id,jdbcType=INTEGER} then #{records.createTime,jdbcType=TIMESTAMP}
+                            </if>
+                        </foreach>
+                    </trim>
+                    <trim prefix="item_order = case" suffix="end,">
+                        <foreach collection="list" index="index" item="records">
+                            <if test="records.itemOrder != null  " >
+                            when id = #{records.id,jdbcType=INTEGER} then #{records.itemOrder,jdbcType=INTEGER}
+                            </if>
+                        </foreach>
+                    </trim>
+        </trim>
+        where id in
+        <foreach collection="list" item="records" open="(" close=")" separator=", ">
+            #{records.id}
+        </foreach>
+    </update>
+    <delete id="deleteBySelective" parameterType="java.lang.Integer">
+        delete
+        from t_exam_paper_question_customer_answer where 1=1
+                <if test="id != null ">
+                    and id = #{id,jdbcType=INTEGER}
+                </if>
+                <if test="questionId != null ">
+                    and question_id = #{questionId,jdbcType=INTEGER}
+                </if>
+                <if test="examPaperId != null ">
+                    and exam_paper_id = #{examPaperId,jdbcType=INTEGER}
+                </if>
+                <if test="examPaperAnswerId != null ">
+                    and exam_paper_answer_id = #{examPaperAnswerId,jdbcType=INTEGER}
+                </if>
+                <if test="questionType != null ">
+                    and question_type = #{questionType,jdbcType=INTEGER}
+                </if>
+                <if test="subjectId != null ">
+                    and subject_id = #{subjectId,jdbcType=INTEGER}
+                </if>
+                <if test="customerScore != null ">
+                    and customer_score = #{customerScore,jdbcType=INTEGER}
+                </if>
+                <if test="questionScore != null ">
+                    and question_score = #{questionScore,jdbcType=INTEGER}
+                </if>
+                <if test="questionTextContentId != null ">
+                    and question_text_content_id = #{questionTextContentId,jdbcType=INTEGER}
+                </if>
+                <if test="answer != null  and answer != '' ">
+                    and answer = #{answer,jdbcType=VARCHAR}
+                </if>
+                <if test="textContentId != null ">
+                    and text_content_id = #{textContentId,jdbcType=INTEGER}
+                </if>
+                <if test="doRight != null ">
+                    and do_right = #{doRight,jdbcType=BIT}
+                </if>
+                <if test="createUser != null ">
+                    and create_user = #{createUser,jdbcType=INTEGER}
+                </if>
+                <if test="createTime != null ">
+                    and create_time = #{createTime,jdbcType=TIMESTAMP}
+                </if>
+                <if test="itemOrder != null ">
+                    and item_order = #{itemOrder,jdbcType=INTEGER}
+                </if>
+    </delete>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from t_exam_paper_question_customer_answer where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <delete id="deleteByPrimaryKeys" parameterType="java.util.List">
+        delete from t_exam_paper_question_customer_answer where id in
+        <foreach collection="list" item="ids" index="index" open="(" close=")" separator=",">
+            #{ids}
+        </foreach>
+    </delete>
+
+
+</mapper>

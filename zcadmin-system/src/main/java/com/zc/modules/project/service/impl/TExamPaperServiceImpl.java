@@ -68,8 +68,7 @@ public class TExamPaperServiceImpl extends ServiceImpl<TExamPaperMapper, TExamPa
         List<QuestionDTO> questionDTOS = tQuestionMapper.selectContentByPrimaryKeys(ids);
 
         Map<Integer, QuestionDTO> questionDTOSMap = questionDTOS.stream().collect(Collectors.toMap(
-                QuestionDTO::getId, v -> v
-        ));
+                QuestionDTO::getId, v -> v));
         titleItems.forEach(
                 v->{
                     v.getQuestionItems().forEach(
@@ -77,6 +76,8 @@ public class TExamPaperServiceImpl extends ServiceImpl<TExamPaperMapper, TExamPa
                                 QuestionDTO questionDTO = questionDTOSMap.get(qv.getId());
                                 qv.setQuestionObject(JSONObject.parseObject(questionDTO.getContent(), QuestionObject.class));
                                 qv.setQuestionType(questionDTO.getQuestionType());
+                                qv.setScore(questionDTO.getScore());
+                                qv.setDifficult(questionDTO.getDifficult());
                             }
                     );
                 }

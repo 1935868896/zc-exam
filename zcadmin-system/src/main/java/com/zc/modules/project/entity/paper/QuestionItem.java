@@ -21,12 +21,16 @@ public class QuestionItem {
     private Integer itemOrder;
 
     @JSONField(serialize = false)
-    private Long score;
+    private Integer score;
 
     @JSONField(serialize = false)
     private Integer questionType;
 
     @JSONField(serialize = false)
     private QuestionObject questionObject;
+
+    @JSONField(serialize = false)
+    private Integer difficult;
+
 
 }
