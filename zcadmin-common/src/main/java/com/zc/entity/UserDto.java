@@ -1,4 +1,4 @@
-package com.zc.modules.security.service;
+package com.zc.entity;
 
 import lombok.Data;
 import org.apache.commons.lang.StringUtils;
@@ -34,6 +34,7 @@ public class UserDto implements UserDetails {
     String password;
     Set<String> permission;
     List<GrantedAuthority> authorities;
+    Long userId;
 
     public void setAuthorities(List<GrantedAuthority> authorities) {
         this.authorities = null;
