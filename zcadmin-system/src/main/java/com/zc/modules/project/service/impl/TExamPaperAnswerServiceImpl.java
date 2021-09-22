@@ -72,7 +72,7 @@ public class TExamPaperAnswerServiceImpl extends ServiceImpl<TExamPaperAnswerMap
     public PaperAnswerReadVO selectReadRecord(Integer id) {
         PaperAnswerReadVO paperAnswerReadVO=new PaperAnswerReadVO();
         TExamPaperAnswer tExamPaperAnswer = tExamPaperAnswerMapper.selectByPrimaryKey(id);
-        PaperDTO paperDTO = tExamPaperService.selectByPrimaryKey(id);
+        PaperDTO paperDTO = tExamPaperService.selectByPrimaryKey(tExamPaperAnswer.getExamPaperId());
         paperAnswerReadVO.setPaper(paperDTO);
         AnswerPaperObject answerPaperObject=new AnswerPaperObject();
 

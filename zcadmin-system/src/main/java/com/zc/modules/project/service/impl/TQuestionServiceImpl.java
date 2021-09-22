@@ -10,6 +10,7 @@ import com.zc.modules.project.dto.QuestionDTO;
 import com.zc.modules.project.entity.TTextContent;
 import com.zc.modules.project.entity.question.QuestionObject;
 import com.zc.modules.project.mapper.TTextContentMapper;
+import com.zc.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -142,6 +143,9 @@ public class TQuestionServiceImpl extends ServiceImpl<TQuestionMapper, TQuestion
         tTextContent.setCreateTime(new DateTime());
         tTextContentMapper.insert(tTextContent);
         record.setInfoTextContentId(tTextContent.getId());
+        record.setCreateTime(new DateTime());
+        record.setStatus(1);
+        record.setCreateUser(SecurityUtils.getCurrentUserId().intValue());
         return tQuestionMapper.insert(record);
     }
 

@@ -3,6 +3,7 @@ package com.zc.modules.project.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
     import com.zc.modules.project.vo.QuestionErrorDetailVO;
     import com.zc.modules.project.vo.QuestionErrorVO;
+    import com.zc.utils.SecurityUtils;
     import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -86,6 +87,19 @@ public class TExamPaperQuestionCustomerAnswerController {
         }
         return ResultResponse.error();
     }
+
+    @ApiOperationSupport(order = 5)
+    @ApiOperation("分页获得错误答案集合")
+    @GetMapping("page/error")
+    @Log("答案问题信息管理:分页获得错误答案集合")
+    @PreAuthorize("@el.check('tExamPaperQuestionCustomerAnswer:getPageByParam')")
+    public ResultResponse getErrorPageByParam(TExamPaperQuestionCustomerAnswer record, Page page) {
+        record.setDoRight(false);
+        record.setCreateUser(SecurityUtils.getCurrentUserId().intValue());
+        IPage<QuestionErrorVO> recordIPage = tExamPaperQuestionCustomerAnswerService.selectPageBySelective(record, page);
+        return ResultResponse.success(recordIPage);
+    }
+
 
     @ApiOperationSupport(order = 5)
     @ApiOperation("分页获得目标数据集合")
