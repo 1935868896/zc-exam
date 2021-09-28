@@ -1,9 +1,11 @@
 package com.zc.modules.project.controller;
 
+import cn.hutool.core.date.DateTime;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zc.annoation.Anonymous;
 import com.zc.modules.project.dto.PaperDTO;
+import com.zc.utils.SecurityUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -113,8 +115,12 @@ public class TExamPaperController {
     public ResultResponse insert(@RequestBody PaperDTO record) {
         int result = 0;
         if (record.getId() == null) {
+            record.setCreateUser(SecurityUtils.getCurrentUserId().intValue());
+            record.setCreateTime(new DateTime());
             result = tExamPaperService.insert(record);
         } else {
+            record.setCreateUser(SecurityUtils.getCurrentUserId().intValue());
+            record.setUpdateTime(new DateTime());
             result = tExamPaperService.update(record);
         }
         if (result > 0) {
