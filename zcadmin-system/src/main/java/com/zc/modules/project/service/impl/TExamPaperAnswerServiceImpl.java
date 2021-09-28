@@ -156,7 +156,7 @@ public class TExamPaperAnswerServiceImpl extends ServiceImpl<TExamPaperAnswerMap
                 .paperName(tExamPaper.getName())
                 .paperScore(tExamPaper.getScore())
                 .paperType(tExamPaper.getPaperType())
-                .createUser(tExamPaper.getCreateUser())
+                .createUser(SecurityUtils.getCurrentUserId().intValue())
                 .questionCorrect(questionCorrect)
                 .questionCount(tExamPaper.getQuestionCount())
                 .status(2)
