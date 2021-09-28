@@ -1,24 +1,26 @@
 package com.zc.modules.system.controller;
-    import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-    import com.zc.modules.system.entity.UsersRoles;
-    import com.zc.modules.system.service.UsersRolesService;
-    import com.zc.modules.system.vo.UserVO;
-    import com.zc.modules.system.vo.UsersRolesVO;
-    import io.swagger.annotations.Api;
+import com.zc.modules.system.entity.UsersRoles;
+import com.zc.modules.system.service.UsersRolesService;
+import com.zc.modules.system.vo.UserVO;
+import com.zc.modules.system.vo.UsersRolesVO;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-    import java.util.ArrayList;
-    import java.util.List;
-    import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
-    import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
-    import com.zc.annotation.Log;
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
+import com.zc.annotation.Log;
 import com.zc.entity.ResultResponse;
 import org.springframework.security.access.prepost.PreAuthorize;
-    import com.zc.modules.system.entity.User;
+import com.zc.modules.system.entity.User;
 import com.zc.modules.system.service.UserService;
 
 /**
@@ -117,8 +119,22 @@ public class UserController {
     @PostMapping
     @Log("系统用户信息管理:插入单条数据")
     @PreAuthorize("@el.check('user:insert')")
-    public ResultResponse insert(@RequestBody User record) {
-        int result = userService.insert(record);
+    public ResultResponse insert(@RequestBody UserVO record) {
+        User user=record.getUser();
+        user.setPassword(new BCryptPasswordEncoder().encode("123456"));
+        int result = userService.insert(user);
+        Set<Long> roles = record.getRoles();
+        List<UsersRoles> usersRolesList=new ArrayList<>();
+        if (roles!=null&&roles.size()>0&&user!=null){
+            for (Long roleId : roles) {
+                UsersRoles usersRoles=new UsersRoles();
+                usersRoles.setUserId(user.getUserId());
+                usersRoles.setRoleId(roleId);
+                usersRolesList.add(usersRoles);
+            }
+            usersRolesService.deleteBySelective(UsersRoles.builder().userId(user.getUserId()).build());
+            usersRolesService.insertBatch(usersRolesList);
+        }
         if (result > 0) {
             return ResultResponse.success(record);
         }

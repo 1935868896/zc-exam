@@ -33,7 +33,7 @@ public class TSubjectController {
     @GetMapping("/id")
     @ApiOperation("根据主键获得对象数据")
     @Log("年级信息管理:根据主键获得对象数据")
-    @PreAuthorize("@el.check('tSubject:getRecordById')")
+    @PreAuthorize("@el.check('tSubject:get')")
     public ResultResponse getRecordById(Integer id) {
         TSubject result = tSubjectService.selectByPrimaryKey(id);
         if (result != null) {
@@ -46,7 +46,7 @@ public class TSubjectController {
     @GetMapping
     @ApiOperation("根据条件查询得到对象集合")
     @Log("年级信息管理:根据条件查询得到对象集合")
-    @PreAuthorize("@el.check('tSubject:getListByParam')")
+    @PreAuthorize("@el.check('tSubject:get')")
     public ResultResponse getListByParam(TSubject record) {
         List<TSubject> result = tSubjectService.selectListBySelective(record);
         if (result != null && result.size() > 0) {
@@ -59,7 +59,7 @@ public class TSubjectController {
     @GetMapping("/single")
     @ApiOperation("根据条件查询得到单个对象")
     @Log("年级信息管理:根据条件查询得到单个对象")
-    @PreAuthorize("@el.check('tSubject:getOneByParam')")
+    @PreAuthorize("@el.check('tSubject:get')")
     public ResultResponse getOneByParam(TSubject record) {
         TSubject result = tSubjectService.selectOneBySelective(record);
         if (result != null) {
@@ -73,7 +73,7 @@ public class TSubjectController {
     @GetMapping("/ids")
     @ApiOperation("根据id集合获得目标数据集合")
     @Log("年级信息管理:根据id集合获得目标数据集合")
-    @PreAuthorize("@el.check('tSubject:getListByIds')")
+    @PreAuthorize("@el.check('tSubject:get')")
     public ResultResponse getListByIds(@RequestParam(value = "ids", required = false) List<Integer> ids) {
         List<TSubject> result = tSubjectService.selectByPrimaryKeys(ids);
         if (result != null && result.size() > 0) {
@@ -86,7 +86,7 @@ public class TSubjectController {
     @ApiOperation("分页获得目标数据集合")
     @GetMapping("page")
     @Log("年级信息管理:分页获得目标数据集合")
-    @PreAuthorize("@el.check('tSubject:getPageByParam')")
+    @PreAuthorize("@el.check('tSubject:get')")
     public ResultResponse getPageByParam(TSubject record, Page page) {
         IPage<TSubject> recordIPage = tSubjectService.selectPageBySelective(record, page);
         return ResultResponse.success(recordIPage);
@@ -96,7 +96,7 @@ public class TSubjectController {
     @Log("年级信息管理:根据条件查询符合数据的数量")
     @GetMapping("count")
     @ApiOperation("根据条件查询符合数据的数量")
-    @PreAuthorize("@el.check('tSubject:getCount')")
+    @PreAuthorize("@el.check('tSubject:get')")
     public ResultResponse getCount(TSubject record) {
         int result = tSubjectService.selectCountBySelective(record);
         return ResultResponse.success(result);
@@ -119,7 +119,7 @@ public class TSubjectController {
     @ApiOperation("批量插入数据")
     @PostMapping("batch")
     @Log("年级信息管理:批量插入数据")
-    @PreAuthorize("@el.check('tSubject:insertBatch')")
+    @PreAuthorize("@el.check('tSubject:insert')")
     public ResultResponse insertBatch(@RequestBody List<TSubject> records) {
         int result = tSubjectService.insertBatch(records);
         if (result > 0) {
@@ -145,7 +145,7 @@ public class TSubjectController {
     @ApiOperation("修改数据,仅修改不为null的数据")
     @PutMapping("/selective")
     @Log("年级信息管理:修改部分数据")
-    @PreAuthorize("@el.check('tSubject:updateBySelective')")
+    @PreAuthorize("@el.check('tSubject:update')")
     public ResultResponse updateSelective(@RequestBody TSubject record) {
         int result = tSubjectService.updateSelective(record);
         if (result > 0) {
@@ -159,7 +159,7 @@ public class TSubjectController {
     @ApiOperation("批量修改数据")
     @PutMapping("batch")
     @Log("年级信息管理:批量修改数据")
-    @PreAuthorize("@el.check('tSubject:updateBatch')")
+    @PreAuthorize("@el.check('tSubject:update')")
     public ResultResponse updateBatch(@RequestBody List<TSubject> records) {
         int result = tSubjectService.updateBatch(records);
         if (result > 0) {
@@ -173,7 +173,7 @@ public class TSubjectController {
     @ApiOperation("批量修改数据,仅修改部分属性")
     @PutMapping("batch/selective")
     @Log("年级信息管理:批量修改数据的部分属性")
-    @PreAuthorize("@el.check('tSubject:updateBatchBySelective')")
+    @PreAuthorize("@el.check('tSubject:update')")
     public ResultResponse updateBatchBySelective(@RequestBody List<TSubject> records) {
         int result = tSubjectService.updateBatchBySelective(records);
         if (result > 0) {
@@ -186,7 +186,7 @@ public class TSubjectController {
     @ApiOperation("根据条件删除数据")
     @DeleteMapping("bySelective")
     @Log("年级信息管理:根据条件删除数据")
-    @PreAuthorize("@el.check('tSubject:deleteBySelective')")
+    @PreAuthorize("@el.check('tSubject:del')")
     public ResultResponse deleteBySelective(@RequestBody TSubject record) {
         int result = tSubjectService.deleteBySelective(record);
         if (result > 0) {
@@ -199,7 +199,7 @@ public class TSubjectController {
     @ApiOperation("根据主键删除数据")
     @DeleteMapping()
     @Log("年级信息管理:根据主键删除数据")
-    @PreAuthorize("@el.check('tSubject:delete')")
+    @PreAuthorize("@el.check('tSubject:del')")
     public ResultResponse delete(Integer id) {
         int result = tSubjectService.deleteByPrimaryKey(id);
         if (result > 0) {
@@ -212,7 +212,7 @@ public class TSubjectController {
     @ApiOperation("根据主键集合批量删除数据")
     @DeleteMapping("ids")
     @Log("年级信息管理:根据主键集合批量删除数据")
-    @PreAuthorize("@el.check('tSubject:deleteByIds')")
+    @PreAuthorize("@el.check('tSubject:del')")
     public ResultResponse deleteByIds(@RequestBody List<Integer> ids) {
         int result = tSubjectService.deleteByPrimaryKeys(ids);
         if (result > 0) {

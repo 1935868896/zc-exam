@@ -2,6 +2,7 @@ package com.zc.modules.project.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.zc.annoation.Anonymous;
 import com.zc.modules.project.dto.PaperDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -35,7 +36,7 @@ public class TExamPaperController {
     @GetMapping("/id")
     @ApiOperation("根据主键获得对象数据")
     @Log("试卷信息管理:根据主键获得对象数据")
-    @PreAuthorize("@el.check('tExamPaper:getRecordById')")
+    @PreAuthorize("@el.check('tExamPaper:get')")
     public ResultResponse getRecordById(Integer id) {
         PaperDTO result = tExamPaperService.selectByPrimaryKey(id);
         if (result != null) {
@@ -48,7 +49,7 @@ public class TExamPaperController {
     @GetMapping
     @ApiOperation("根据条件查询得到对象集合")
     @Log("试卷信息管理:根据条件查询得到对象集合")
-    @PreAuthorize("@el.check('tExamPaper:getListByParam')")
+    @PreAuthorize("@el.check('tExamPaper:get')")
     public ResultResponse getListByParam(TExamPaper record) {
         List<TExamPaper> result = tExamPaperService.selectListBySelective(record);
         if (result != null && result.size() > 0) {
@@ -61,7 +62,7 @@ public class TExamPaperController {
     @GetMapping("/single")
     @ApiOperation("根据条件查询得到单个对象")
     @Log("试卷信息管理:根据条件查询得到单个对象")
-    @PreAuthorize("@el.check('tExamPaper:getOneByParam')")
+    @PreAuthorize("@el.check('tExamPaper:get')")
     public ResultResponse getOneByParam(TExamPaper record) {
         TExamPaper result = tExamPaperService.selectOneBySelective(record);
         if (result != null) {
@@ -75,7 +76,7 @@ public class TExamPaperController {
     @GetMapping("/ids")
     @ApiOperation("根据id集合获得目标数据集合")
     @Log("试卷信息管理:根据id集合获得目标数据集合")
-    @PreAuthorize("@el.check('tExamPaper:getListByIds')")
+    @PreAuthorize("@el.check('tExamPaper:get')")
     public ResultResponse getListByIds(@RequestParam(value = "ids", required = false) List<Integer> ids) {
         List<TExamPaper> result = tExamPaperService.selectByPrimaryKeys(ids);
         if (result != null && result.size() > 0) {
@@ -88,7 +89,7 @@ public class TExamPaperController {
     @ApiOperation("分页获得目标数据集合")
     @GetMapping("page")
     @Log("试卷信息管理:分页获得目标数据集合")
-    @PreAuthorize("@el.check('tExamPaper:getPageByParam')")
+    @PreAuthorize("@el.check('tExamPaper:get')")
     public ResultResponse getPageByParam(TExamPaper record, Page page) {
         IPage<TExamPaper> recordIPage = tExamPaperService.selectPageBySelective(record, page);
         return ResultResponse.success(recordIPage);
@@ -98,7 +99,7 @@ public class TExamPaperController {
     @Log("试卷信息管理:根据条件查询符合数据的数量")
     @GetMapping("count")
     @ApiOperation("根据条件查询符合数据的数量")
-    @PreAuthorize("@el.check('tExamPaper:getCount')")
+    @PreAuthorize("@el.check('tExamPaper:get')")
     public ResultResponse getCount(TExamPaper record) {
         int result = tExamPaperService.selectCountBySelective(record);
         return ResultResponse.success(result);
@@ -126,7 +127,7 @@ public class TExamPaperController {
     @ApiOperation("批量插入数据")
     @PostMapping("batch")
     @Log("试卷信息管理:批量插入数据")
-    @PreAuthorize("@el.check('tExamPaper:insertBatch')")
+    @PreAuthorize("@el.check('tExamPaper:insert')")
     public ResultResponse insertBatch(@RequestBody List<TExamPaper> records) {
         int result = tExamPaperService.insertBatch(records);
         if (result > 0) {
@@ -152,7 +153,7 @@ public class TExamPaperController {
     @ApiOperation("修改数据,仅修改不为null的数据")
     @PutMapping("/selective")
     @Log("试卷信息管理:修改部分数据")
-    @PreAuthorize("@el.check('tExamPaper:updateBySelective')")
+    @PreAuthorize("@el.check('tExamPaper:update')")
     public ResultResponse updateSelective(@RequestBody TExamPaper record) {
         int result = tExamPaperService.updateSelective(record);
         if (result > 0) {
@@ -166,7 +167,7 @@ public class TExamPaperController {
     @ApiOperation("批量修改数据")
     @PutMapping("batch")
     @Log("试卷信息管理:批量修改数据")
-    @PreAuthorize("@el.check('tExamPaper:updateBatch')")
+    @PreAuthorize("@el.check('tExamPaper:update')")
     public ResultResponse updateBatch(@RequestBody List<TExamPaper> records) {
         int result = tExamPaperService.updateBatch(records);
         if (result > 0) {
@@ -180,7 +181,7 @@ public class TExamPaperController {
     @ApiOperation("批量修改数据,仅修改部分属性")
     @PutMapping("batch/selective")
     @Log("试卷信息管理:批量修改数据的部分属性")
-    @PreAuthorize("@el.check('tExamPaper:updateBatchBySelective')")
+    @PreAuthorize("@el.check('tExamPaper:update')")
     public ResultResponse updateBatchBySelective(@RequestBody List<TExamPaper> records) {
         int result = tExamPaperService.updateBatchBySelective(records);
         if (result > 0) {
@@ -193,7 +194,7 @@ public class TExamPaperController {
     @ApiOperation("根据条件删除数据")
     @DeleteMapping("bySelective")
     @Log("试卷信息管理:根据条件删除数据")
-    @PreAuthorize("@el.check('tExamPaper:deleteBySelective')")
+    @PreAuthorize("@el.check('tExamPaper:del')")
     public ResultResponse deleteBySelective(@RequestBody TExamPaper record) {
         int result = tExamPaperService.deleteBySelective(record);
         if (result > 0) {
@@ -206,7 +207,7 @@ public class TExamPaperController {
     @ApiOperation("根据主键删除数据")
     @DeleteMapping()
     @Log("试卷信息管理:根据主键删除数据")
-    @PreAuthorize("@el.check('tExamPaper:delete')")
+    @PreAuthorize("@el.check('tExamPaper:del')")
     public ResultResponse delete(Integer id) {
         int result = tExamPaperService.deleteByPrimaryKey(id);
         if (result > 0) {
@@ -219,7 +220,7 @@ public class TExamPaperController {
     @ApiOperation("根据主键集合批量删除数据")
     @DeleteMapping("ids")
     @Log("试卷信息管理:根据主键集合批量删除数据")
-    @PreAuthorize("@el.check('tExamPaper:deleteByIds')")
+    @PreAuthorize("@el.check('tExamPaper:del')")
     public ResultResponse deleteByIds(@RequestBody List<Integer> ids) {
         int result = tExamPaperService.deleteByPrimaryKeys(ids);
         if (result > 0) {

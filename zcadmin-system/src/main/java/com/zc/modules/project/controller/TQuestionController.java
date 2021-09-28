@@ -34,7 +34,7 @@ public class TQuestionController {
     @GetMapping("/id")
     @ApiOperation("根据主键获得对象数据")
     @Log("问题信息管理:根据主键获得对象数据")
-    @PreAuthorize("@el.check('tQuestion:getRecordById')")
+    @PreAuthorize("@el.check('tQuestion:get')")
     public ResultResponse getRecordById(Integer id) {
         QuestionDTO result = tQuestionService.selectByPrimaryKey(id);
         if (result != null) {
@@ -47,7 +47,7 @@ public class TQuestionController {
     @GetMapping
     @ApiOperation("根据条件查询得到对象集合")
     @Log("问题信息管理:根据条件查询得到对象集合")
-    @PreAuthorize("@el.check('tQuestion:getListByParam')")
+    @PreAuthorize("@el.check('tQuestion:get')")
     public ResultResponse getListByParam(TQuestion record) {
         List<TQuestion> result = tQuestionService.selectListBySelective(record);
         if (result != null && result.size() > 0) {
@@ -60,7 +60,7 @@ public class TQuestionController {
     @GetMapping("/single")
     @ApiOperation("根据条件查询得到单个对象")
     @Log("问题信息管理:根据条件查询得到单个对象")
-    @PreAuthorize("@el.check('tQuestion:getOneByParam')")
+    @PreAuthorize("@el.check('tQuestion:get')")
     public ResultResponse getOneByParam(TQuestion record) {
         TQuestion result = tQuestionService.selectOneBySelective(record);
         if (result != null) {
@@ -74,7 +74,7 @@ public class TQuestionController {
     @GetMapping("/ids")
     @ApiOperation("根据id集合获得目标数据集合")
     @Log("问题信息管理:根据id集合获得目标数据集合")
-    @PreAuthorize("@el.check('tQuestion:getListByIds')")
+    @PreAuthorize("@el.check('tQuestion:get')")
     public ResultResponse getListByIds(@RequestParam(value = "ids", required = false) List<Integer> ids) {
         List<TQuestion> result = tQuestionService.selectByPrimaryKeys(ids);
         if (result != null && result.size() > 0) {
@@ -87,7 +87,7 @@ public class TQuestionController {
     @ApiOperation("分页获得目标数据集合")
     @GetMapping("page")
     @Log("问题信息管理:分页获得目标数据集合")
-    @PreAuthorize("@el.check('tQuestion:getPageByParam')")
+    @PreAuthorize("@el.check('tQuestion:get')")
     public ResultResponse getPageByParam(TQuestion record, Page page) {
         IPage<QuestionDTO> recordIPage = tQuestionService.selectPageBySelective(record, page);
         return ResultResponse.success(recordIPage);
@@ -97,7 +97,7 @@ public class TQuestionController {
     @Log("问题信息管理:根据条件查询符合数据的数量")
     @GetMapping("count")
     @ApiOperation("根据条件查询符合数据的数量")
-    @PreAuthorize("@el.check('tQuestion:getCount')")
+    @PreAuthorize("@el.check('tQuestion:get')")
     public ResultResponse getCount(TQuestion record) {
         int result = tQuestionService.selectCountBySelective(record);
         return ResultResponse.success(result);
@@ -129,7 +129,7 @@ public class TQuestionController {
     @ApiOperation("批量插入数据")
     @PostMapping("batch")
     @Log("问题信息管理:批量插入数据")
-    @PreAuthorize("@el.check('tQuestion:insertBatch')")
+    @PreAuthorize("@el.check('tQuestion:insert')")
     public ResultResponse insertBatch(@RequestBody List<TQuestion> records) {
         int result = tQuestionService.insertBatch(records);
         if (result > 0) {
@@ -155,7 +155,7 @@ public class TQuestionController {
     @ApiOperation("修改数据,仅修改不为null的数据")
     @PutMapping("/selective")
     @Log("问题信息管理:修改部分数据")
-    @PreAuthorize("@el.check('tQuestion:updateBySelective')")
+    @PreAuthorize("@el.check('tQuestion:update')")
     public ResultResponse updateSelective(@RequestBody TQuestion record) {
         int result = tQuestionService.updateSelective(record);
         if (result > 0) {
@@ -169,7 +169,7 @@ public class TQuestionController {
     @ApiOperation("批量修改数据")
     @PutMapping("batch")
     @Log("问题信息管理:批量修改数据")
-    @PreAuthorize("@el.check('tQuestion:updateBatch')")
+    @PreAuthorize("@el.check('tQuestion:update')")
     public ResultResponse updateBatch(@RequestBody List<TQuestion> records) {
         int result = tQuestionService.updateBatch(records);
         if (result > 0) {
@@ -183,7 +183,7 @@ public class TQuestionController {
     @ApiOperation("批量修改数据,仅修改部分属性")
     @PutMapping("batch/selective")
     @Log("问题信息管理:批量修改数据的部分属性")
-    @PreAuthorize("@el.check('tQuestion:updateBatchBySelective')")
+    @PreAuthorize("@el.check('tQuestion:update')")
     public ResultResponse updateBatchBySelective(@RequestBody List<TQuestion> records) {
         int result = tQuestionService.updateBatchBySelective(records);
         if (result > 0) {
@@ -196,7 +196,7 @@ public class TQuestionController {
     @ApiOperation("根据条件删除数据")
     @DeleteMapping("bySelective")
     @Log("问题信息管理:根据条件删除数据")
-    @PreAuthorize("@el.check('tQuestion:deleteBySelective')")
+    @PreAuthorize("@el.check('tQuestion:del')")
     public ResultResponse deleteBySelective(@RequestBody TQuestion record) {
         int result = tQuestionService.deleteBySelective(record);
         if (result > 0) {
@@ -209,7 +209,7 @@ public class TQuestionController {
     @ApiOperation("根据主键删除数据")
     @DeleteMapping()
     @Log("问题信息管理:根据主键删除数据")
-    @PreAuthorize("@el.check('tQuestion:delete')")
+    @PreAuthorize("@el.check('tQuestion:del')")
     public ResultResponse delete(Integer id) {
         int result = tQuestionService.deleteByPrimaryKey(id);
         if (result > 0) {
@@ -222,7 +222,7 @@ public class TQuestionController {
     @ApiOperation("根据主键集合批量删除数据")
     @DeleteMapping("ids")
     @Log("问题信息管理:根据主键集合批量删除数据")
-    @PreAuthorize("@el.check('tQuestion:deleteByIds')")
+    @PreAuthorize("@el.check('tQuestion:del')")
     public ResultResponse deleteByIds(@RequestBody List<Integer> ids) {
         int result = tQuestionService.deleteByPrimaryKeys(ids);
         if (result > 0) {

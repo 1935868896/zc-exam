@@ -25,11 +25,14 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 获取当前登录的用户
@@ -48,7 +51,15 @@ public class SecurityUtils {
         return userDetailsService.loadUserByUsername(getCurrentUsername());
     }
 
-
+    /**
+     * 判断用户是否为admin用户,很多接口当用户为admin时查看所有数据,当不是admin的时候只能查看自己的数据
+     * @return Boolean
+     */
+    public static Boolean isAdmin() {
+        List<String> elPermissions = SecurityUtils.getCurrentUser().getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
+        // 判断当前用户的所有权限是否包含接口上定义的权限
+        return elPermissions.contains("admin");
+    }
 
     /**
      * 获取系统用户名称

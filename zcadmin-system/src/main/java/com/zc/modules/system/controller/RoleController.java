@@ -1,23 +1,25 @@
 package com.zc.modules.system.controller;
-    import com.baomidou.mybatisplus.core.metadata.IPage;
+import cn.hutool.core.date.DateTime;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-    import com.zc.modules.system.entity.RolesMenus;
-    import com.zc.modules.system.service.RolesMenusService;
-    import com.zc.modules.system.vo.RolesMenusVO;
-    import io.swagger.annotations.Api;
+import com.zc.modules.system.entity.RolesMenus;
+import com.zc.modules.system.service.RolesMenusService;
+import com.zc.modules.system.vo.RolesMenusVO;
+import com.zc.utils.SecurityUtils;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-    import java.util.ArrayList;
-    import java.util.List;
-    import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
-    import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
-    import com.zc.annotation.Log;
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
+import com.zc.annotation.Log;
 import com.zc.entity.ResultResponse;
 import org.springframework.security.access.prepost.PreAuthorize;
-    import com.zc.modules.system.entity.Role;
+import com.zc.modules.system.entity.Role;
 import com.zc.modules.system.service.RoleService;
 
 /**
@@ -118,6 +120,8 @@ public class RoleController {
     @Log("角色信息管理:插入单条数据")
     @PreAuthorize("@el.check('role:insert')")
     public ResultResponse insert(@RequestBody Role record) {
+        record.setCreateTime(new DateTime());
+        record.setCreateBy(SecurityUtils.getCurrentUsername());
         int result = roleService.insert(record);
         if (result > 0) {
             return ResultResponse.success(record);
@@ -133,6 +137,8 @@ public class RoleController {
     @Log("角色信息管理:修改数据")
     @PreAuthorize("@el.check('role:update')")
     public ResultResponse update(@RequestBody Role record) {
+        record.setUpdateTime(new DateTime());
+        record.setUpdateBy(SecurityUtils.getCurrentUsername());
         int result = roleService.update(record);
         if (result > 0) {
             return ResultResponse.success();
